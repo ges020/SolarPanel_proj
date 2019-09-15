@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "592374889627",
+    "firebase_url": "https://solarpanel-7d5b9.firebaseio.com",
+    "project_id": "solarpanel-7d5b9",
+    "storage_bucket": "solarpanel-7d5b9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:592374889627:android:de7e4fd8db0aa05b969a3e",
+        "android_client_info": {
+          "package_name": "com.example.solarpanel_proj"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "592374889627-tr92of52asl753ab493ob8f16omjl82h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBXFkuqhtHXTKJzVxZNTUF8ztXLb1h-yMQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "592374889627-tr92of52asl753ab493ob8f16omjl82h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
