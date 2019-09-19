@@ -14,10 +14,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,8 +30,8 @@ public class MainActivity extends AppCompatActivity {
     static final String[] LIST_MENU = {"LIST1", "LIST2", "LIST3"} ;
 
     //view
-    String id="id2";
-    String password="id2";
+    String id="id3";
+    String password="id3";
     String email = "email2@email";
     String phone = "01030304040";
     String address= "add2";
@@ -53,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
     String userEnergy="-1";
 
     //exchange
-    ExchangeDTO exchangeDTO;
+    ExchangeRecordDTO exchangeDTO;
 
     String changeEnergy="";
     String userId="";
@@ -74,9 +71,11 @@ public class MainActivity extends AppCompatActivity {
         listview = (ListView) findViewById(R.id.listview) ;
         listview.setAdapter(arrayAdapter) ;
 
-        getUserList();
+        //getUserList();
+        getExchangeEnergyList();
+        postExchangeEnergy("id1","111");
 
-
+        //userSignIn("id","pw");
         //postUserSignUp(true);
         //sendEnergy("N","id1","2222");
         //getUserEnergy("id1");
@@ -110,6 +109,33 @@ public class MainActivity extends AppCompatActivity {
         }
         childUpdates.put("/id_list/" + id, postValues);
         mDatabase.updateChildren(childUpdates);
+    }
+
+    public void userSignIn(String sid, String spw){
+        Log.d("userSignIn", "userSignIn: ");
+
+        id = sid;
+        password = spw;
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.child("/id_list/"+sid).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                userDTO = snapshot.getValue(UserDTO.class);
+                Log.d("userInfo", "userInfo: " + userDTO);
+
+                if(password.equals(userDTO.password)){
+                    Log.d("login", "success ");
+                }else{
+                    Log.d("login", "fail ");
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d("getUsers", databaseError.toException().toString());
+                // ...
+            }
+        });
+
     }
 
 
@@ -152,6 +178,61 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    //거래 입력
+    public void postExchangeEnergy(String eid, String eenergy){
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        Map<String, Object> childUpdates = new HashMap<>();
+        Map<String, Object> postValues = null;
+
+        id = eid;
+        energy = eenergy;
+
+        ExchangeDTO post = new ExchangeDTO(id,energy);
+        postValues = post.toMap();
+
+        childUpdates.put("/exchange_list/" + id, postValues);
+        mDatabase.updateChildren(childUpdates);
+    }
+
+    //거래 목록 띄우기
+    public void getExchangeEnergyList(){
+        Log.d("테스트", "getExchangeRecordList");
+
+        ValueEventListener postListener = new ValueEventListener() {
+
+            //성공
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ExchangeDTO post = dataSnapshot.getValue(ExchangeDTO.class);
+                Log.d("기록", "key: " + dataSnapshot.getChildrenCount());
+
+                arrayData.clear();
+                arrayIndex.clear();
+                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                    String key = postSnapshot.getKey();
+                    ExchangeDTO get = postSnapshot.getValue(ExchangeDTO.class);
+                    String[] info = {get.sender,get.energy};
+                    arrayIndex.add(key);
+                    Log.d("기록", "key: " + key);
+                    Log.d("기록", "info: " + info[0] + info[1]);
+
+                }
+                arrayAdapter.clear();
+                arrayAdapter.addAll(arrayIndex);
+                arrayAdapter.notifyDataSetChanged();
+            }
+
+            //실패
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d(TAG, "loadPost:onCancelled", databaseError.toException());
+                // ...
+            }
+        };
+        Query sortbyAge = FirebaseDatabase.getInstance().getReference().child("exchange_list");
+        sortbyAge.addListenerForSingleValueEvent(postListener);
+    }
+
     //회원 전력량 변경
     public void updateUserEnergy(String energy, String sender1, String receiver1){
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -167,8 +248,6 @@ public class MainActivity extends AppCompatActivity {
                 Map<String, Object> childUpdates = new HashMap<>();
 
                 userEnergy = snapshot.getValue().toString();
-                //Log.d("유저에너지", userEnergy);
-                //Log.d("에너지fidx", changeEnergy);
 
                 String tmpEnergy="";
 
@@ -176,7 +255,6 @@ public class MainActivity extends AppCompatActivity {
                 childUpdates.put("/id_list/" + sender+"/energy", tmpEnergy );
 
                 mDatabase.updateChildren(childUpdates);
-                //Log.d("업뎃", "끝");
 
             }
             @Override
@@ -192,7 +270,6 @@ public class MainActivity extends AppCompatActivity {
                 Map<String, Object> childUpdates = new HashMap<>();
 
                 userEnergy = snapshot.getValue().toString();
-                Log.d("유저에너지", userEnergy);
 
                 String tmpEnergy="";
 
@@ -200,7 +277,6 @@ public class MainActivity extends AppCompatActivity {
                 childUpdates.put("/id_list/" + receiver+"/energy", tmpEnergy );
 
                 mDatabase.updateChildren(childUpdates);
-                Log.d("업뎃", "끝");
 
             }
             @Override
@@ -218,7 +294,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 userDTO = snapshot.getValue(UserDTO.class);
-                Log.d("getUsers", userDTO.password);
+                Log.d("getUsersDTO", userDTO.password);
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -240,7 +316,7 @@ public class MainActivity extends AppCompatActivity {
 //        Log.d("시간", date.toString());
 
 
-        ExchangeDTO post = new ExchangeDTO(sender,receiver,sendEnergy);
+        ExchangeRecordDTO post = new ExchangeRecordDTO(sender,receiver,sendEnergy);
         postValues = post.toMap();
 
         childUpdates.put("/exchange_record/" + sender, postValues);
@@ -256,23 +332,23 @@ public class MainActivity extends AppCompatActivity {
             //성공
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                ExchangeDTO post = dataSnapshot.getValue(ExchangeDTO.class);
+                ExchangeRecordDTO post = dataSnapshot.getValue(ExchangeRecordDTO.class);
                 Log.d("기록", "key: " + dataSnapshot.getChildrenCount());
 
                 arrayData.clear();
                 arrayIndex.clear();
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                     String key = postSnapshot.getKey();
-                    ExchangeDTO get = postSnapshot.getValue(ExchangeDTO.class);
+                    ExchangeRecordDTO get = postSnapshot.getValue(ExchangeRecordDTO.class);
                     String[] info = {get.sender,get.receiever,get.energy};
                     arrayIndex.add(key);
                     Log.d("기록", "key: " + key);
                     Log.d("기록", "info: " + info[0] + info[1] + info[2]);
 
                 }
-                //arrayAdapter.clear();
-                //arrayAdapter.addAll(arrayData);
-                //arrayAdapter.notifyDataSetChanged();
+                arrayAdapter.clear();
+                arrayAdapter.addAll(arrayIndex);
+                arrayAdapter.notifyDataSetChanged();
             }
 
             //실패
