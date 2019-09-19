@@ -1,11 +1,13 @@
 package com.example.solarpanel_proj;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -21,6 +23,8 @@ import java.util.Map;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
+
+    public static final int sub = 1001; /*다른 액티비티를 띄우기 위한 요청코드(상수)*/
 
     private static final String TAG = "MainActivity";
 
@@ -73,9 +77,9 @@ public class MainActivity extends AppCompatActivity {
 
         //getUserList();
         getExchangeEnergyList();
-        postExchangeEnergy("id1","111");
+        //postExchangeEnergy("id1","111");
 
-        //userSignIn("id","pw");
+        userSignIn("id1","id1");
         //postUserSignUp(true);
         //sendEnergy("N","id1","2222");
         //getUserEnergy("id1");
@@ -123,10 +127,22 @@ public class MainActivity extends AppCompatActivity {
                 userDTO = snapshot.getValue(UserDTO.class);
                 Log.d("userInfo", "userInfo: " + userDTO);
 
-                if(password.equals(userDTO.password)){
-                    Log.d("login", "success ");
-                }else{
-                    Log.d("login", "fail ");
+                try {
+                    if (password.equals(userDTO.password)) {
+                        Log.d("login", "success ");
+                        Toast toast = Toast.makeText(getApplicationContext(), "로그인 성공", Toast.LENGTH_SHORT);
+                        toast.show();
+                        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                        startActivityForResult(intent, sub);//액티비티 띄우기
+
+                    } else {
+                        Log.d("login", "fail ");
+                        Toast toast = Toast.makeText(getApplicationContext(), "아이디나 비밀번호가 일치하지 않습니다", Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
+                }catch(Exception e){
+                    Toast toast = Toast.makeText(getApplicationContext(), "존재하지 않는 아이디입니다", Toast.LENGTH_SHORT);
+
                 }
             }
             @Override
@@ -139,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    //회원목록
+    //회원 목록 조회
     public void getUserList(){
         ValueEventListener postListener = new ValueEventListener() {
 
@@ -194,7 +210,7 @@ public class MainActivity extends AppCompatActivity {
         mDatabase.updateChildren(childUpdates);
     }
 
-    //거래 목록 띄우기
+    //거래 목록 조회
     public void getExchangeEnergyList(){
         Log.d("테스트", "getExchangeRecordList");
 
@@ -233,7 +249,7 @@ public class MainActivity extends AppCompatActivity {
         sortbyAge.addListenerForSingleValueEvent(postListener);
     }
 
-    //회원 전력량 변경
+    //회원 간 전력량 변경
     public void updateUserEnergy(String energy, String sender1, String receiver1){
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
@@ -360,5 +376,48 @@ public class MainActivity extends AppCompatActivity {
         };
         Query sortbyAge = FirebaseDatabase.getInstance().getReference().child("exchange_record").orderByChild("sender").equalTo(userId);
         sortbyAge.addListenerForSingleValueEvent(postListener);
+    }
+
+    //발전 에너지 저장
+    public void postGeneratorEnergy(String gid){
+        id = gid;
+        mDatabase.child("/id_list/"+id+"/energy").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                Map<String, Object> childUpdates = new HashMap<>();
+
+                userEnergy = snapshot.getValue().toString();
+
+                String tmpEnergy="";
+
+                tmpEnergy = String.valueOf(Integer.parseInt(userEnergy) + Integer.parseInt(changeEnergy));
+                childUpdates.put("/id_list/" + receiver+"/energy", tmpEnergy );
+
+                mDatabase.updateChildren(childUpdates);
+
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d("getUsers", databaseError.toException().toString());
+                // ...
+            }
+        });
+    }
+    //발전 에너지 조회
+    public void getGeneratorEnergy(String gid){
+        id = gid;
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.child("/id_list/"+id+"/energy").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                userEnergy = snapshot.getValue().toString();
+                Log.d("userEnergy",  userEnergy );
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d("getUsers", databaseError.toException().toString());
+                // ...
+            }
+        });
     }
 }
