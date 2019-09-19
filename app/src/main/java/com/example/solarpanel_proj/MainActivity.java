@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -65,22 +66,60 @@ public class MainActivity extends AppCompatActivity {
 //    String sendEnergy="";
 //    Date date;
 
+    //xml
+
+    ImageView BTN_0;
+    ImageView BTN_1;
+    ImageView BTN_2;
+    ImageView BTN_3;
+    ImageView BTN_4;
+    ImageView BTN_5;
+    ImageView BTN_6;
+    ImageView BTN_7;
+    ImageView BTN_8;
+    ImageView BTN_9;
+
+    ImageView sendBTN;
+    ImageView delBTN;
+
+    ImageView generatorMenuBTN;
+    ImageView exchangeMenuBTN;
+    ImageView recordMenuBTN;
+
+    String resultValueStr="";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1) ;
-        listview = (ListView) findViewById(R.id.listview) ;
-        listview.setAdapter(arrayAdapter) ;
+
+        BTN_1 = (findViewById(R.id.normal_frame7));
+        BTN_2 = (findViewById(R.id.normal_frame8));
+        BTN_3 = (findViewById(R.id.normal_frame9));
+        BTN_4 = (findViewById(R.id.normal_frame4));
+        BTN_5 = (findViewById(R.id.normal_frame5));
+        BTN_6 = (findViewById(R.id.normal_frame6));
+        BTN_7 = (findViewById(R.id.normal_frame1));
+        BTN_8 = (findViewById(R.id.normal_frame2));
+        BTN_9 = (findViewById(R.id.normal_frame3));
+        BTN_0 = (findViewById(R.id.normal_frame0));
+
+        generatorMenuBTN = (findViewById(R.id.menu_pic1));
+        exchangeMenuBTN = (findViewById(R.id.menu_pic2));
+        recordMenuBTN = (findViewById(R.id.menu_pic3));
+
+        //arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1) ;
+       // listview = (ListView) findViewById(R.id.listview) ;
+        //listview.setAdapter(arrayAdapter) ;
 
         //getUserList();
-        getExchangeEnergyList();
+        //getExchangeEnergyList();
         //postExchangeEnergy("id1","111");
 
-        ClientThread thread = new ClientThread();
-        thread.start();
+        //ClientThread thread = new ClientThread();
+        //thread.start();
 
         //userSignIn("id1","id1");
         //postUserSignUp(true);
@@ -93,71 +132,117 @@ public class MainActivity extends AppCompatActivity {
         //postExchangeRecord("id2","id1","2223");
        // getExchangeRecordList("id1");
 
-        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        BTN_1.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemClick(AdapterView parent, View v, int position, long id) {
-
-                String strText = (String) parent.getItemAtPosition(position);
-                Log.d("click", "ID: "+strText);
-
+            public void onClick(View v) {
+                resultValueStr+="1";
+                Log.d("BTN_1 click", resultValueStr);
             }
         });
+
+        BTN_2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resultValueStr+="2";
+                Log.d("BTN_2 click", resultValueStr);
+            }
+        });
+        BTN_3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resultValueStr+="3";
+                Log.d("BTN_3 click", resultValueStr);
+            }
+        });
+        BTN_4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resultValueStr+="4";
+                Log.d("BTN_4 click", resultValueStr);
+            }
+        });
+        BTN_5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resultValueStr+="5";
+                Log.d("BTN_5 click", resultValueStr);
+            }
+        });
+        BTN_6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resultValueStr+="6";
+                Log.d("BTN_6 click", resultValueStr);
+            }
+        });
+        BTN_7.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resultValueStr+="7";
+                Log.d("BTN_7 click", resultValueStr);
+            }
+        });
+        BTN_8.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resultValueStr+="8";
+                Log.d("BTN_8 click", resultValueStr);
+            }
+        });
+        BTN_9.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resultValueStr+="9";
+                Log.d("BTN_9 click", resultValueStr);
+            }
+        });
+        BTN_0.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resultValueStr+="0";
+                Log.d("BTN_0 click", resultValueStr);
+            }
+        });
+        generatorMenuBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), generatorActivity.class);
+                startActivityForResult(intent, sub);//액티비티 띄우기
+            }
+        });
+        exchangeMenuBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), exchangeActivity.class);
+                startActivityForResult(intent, sub);//액티비티 띄우기
+            }
+        });
+        recordMenuBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), recordActivity.class);
+                startActivityForResult(intent, sub);//액티비티 띄우기
+            }
+        });
+
+//        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView parent, View v, int position, long id) {
+//
+//                String strText = (String) parent.getItemAtPosition(position);
+//                Log.d("click", "ID: "+strText);
+//
+//            }
+//        });
+
+
     }
-
-
-    //회원가입
-    public void postUserSignUp(boolean add){
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        Map<String, Object> childUpdates = new HashMap<>();
-        Map<String, Object> postValues = null;
-        if(add){
-            UserDTO post = new UserDTO(id,password,email,phone,address, name,energy);
-            postValues = post.toMap();
+    public String delReultValue(String str) {
+        if (str != null && str.length() > 0 && str.charAt(str.length()-1)=='x') {
+            str = str.substring(0, str.length()-1);
         }
-        childUpdates.put("/id_list/" + id, postValues);
-        mDatabase.updateChildren(childUpdates);
+        return str;
     }
-
-    public void userSignIn(String sid, String spw){
-        Log.d("userSignIn", "userSignIn: ");
-
-        id = sid;
-        password = spw;
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        mDatabase.child("/id_list/"+sid).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                userDTO = snapshot.getValue(UserDTO.class);
-                Log.d("userInfo", "userInfo: " + userDTO);
-
-                try {
-                    if (password.equals(userDTO.password)) {
-                        Log.d("login", "success ");
-                        Toast toast = Toast.makeText(getApplicationContext(), "로그인 성공", Toast.LENGTH_SHORT);
-                        toast.show();
-                        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                        startActivityForResult(intent, sub);//액티비티 띄우기
-
-                    } else {
-                        Log.d("login", "fail ");
-                        Toast toast = Toast.makeText(getApplicationContext(), "아이디나 비밀번호가 일치하지 않습니다", Toast.LENGTH_SHORT);
-                        toast.show();
-                    }
-                }catch(Exception e){
-                    Toast toast = Toast.makeText(getApplicationContext(), "존재하지 않는 아이디입니다", Toast.LENGTH_SHORT);
-                    toast.show();
-
-                }
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.d("getUsers", databaseError.toException().toString());
-                // ...
-            }
-        });
-
-    }
-
 
     //회원 목록 조회
     public void getUserList(){
@@ -198,118 +283,8 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    //거래 입력
-    public void postExchangeEnergy(String eid, String eenergy){
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        Map<String, Object> childUpdates = new HashMap<>();
-        Map<String, Object> postValues = null;
 
-        id = eid;
-        energy = eenergy;
 
-        ExchangeDTO post = new ExchangeDTO(id,energy);
-        postValues = post.toMap();
-
-        childUpdates.put("/exchange_list/" + id, postValues);
-        mDatabase.updateChildren(childUpdates);
-
-        Toast toast = Toast.makeText(getApplicationContext(), "거래가 등록되었습니다", Toast.LENGTH_SHORT);
-        toast.show();
-    }
-
-    //거래 목록 조회
-    public void getExchangeEnergyList(){
-
-        ValueEventListener postListener = new ValueEventListener() {
-
-            //성공
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                ExchangeDTO post = dataSnapshot.getValue(ExchangeDTO.class);
-                Log.d("기록", "key: " + dataSnapshot.getChildrenCount());
-
-                arrayData.clear();
-                arrayIndex.clear();
-                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
-                    String key = postSnapshot.getKey();
-                    ExchangeDTO get = postSnapshot.getValue(ExchangeDTO.class);
-                    String[] info = {get.sender,get.energy};
-                    arrayIndex.add(key);
-                    Log.d("기록", "key: " + key);
-                    Log.d("기록", "info: " + info[0] + info[1]);
-
-                }
-                arrayAdapter.clear();
-                arrayAdapter.addAll(arrayIndex);
-                arrayAdapter.notifyDataSetChanged();
-            }
-
-            //실패
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.d(TAG, "loadPost:onCancelled", databaseError.toException());
-                // ...
-            }
-        };
-        Query sortbyAge = FirebaseDatabase.getInstance().getReference().child("exchange_list");
-        sortbyAge.addListenerForSingleValueEvent(postListener);
-    }
-
-    //회원 간 전력량 변경
-    public void updateUserEnergy(String energy, String sender1, String receiver1){
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-
-        changeEnergy = energy;
-        userId = id;
-        sender = sender1;
-        receiver = receiver1;
-
-        mDatabase.child("/id_list/"+sender+"/energy").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                Map<String, Object> childUpdates = new HashMap<>();
-
-                userEnergy = snapshot.getValue().toString();
-
-                String tmpEnergy="";
-
-                tmpEnergy = String.valueOf(Integer.parseInt(userEnergy) - Integer.parseInt(changeEnergy));
-                childUpdates.put("/id_list/" + sender+"/energy", tmpEnergy );
-
-                mDatabase.updateChildren(childUpdates);
-
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.d("getUsers", databaseError.toException().toString());
-                // ...
-            }
-        });
-
-        mDatabase.child("/id_list/"+receiver+"/energy").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                Map<String, Object> childUpdates = new HashMap<>();
-
-                userEnergy = snapshot.getValue().toString();
-
-                String tmpEnergy="";
-
-                tmpEnergy = String.valueOf(Integer.parseInt(userEnergy) + Integer.parseInt(changeEnergy));
-                childUpdates.put("/id_list/" + receiver+"/energy", tmpEnergy );
-
-                mDatabase.updateChildren(childUpdates);
-
-                Toast toast = Toast.makeText(getApplicationContext(), "전력 거래에 성공했습니다", Toast.LENGTH_SHORT);
-                toast.show();
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.d("getUsers", databaseError.toException().toString());
-                // ...
-            }
-        });
-    }
 
     //회원 정보
     public void getUserInfo(String id){
@@ -347,44 +322,6 @@ public class MainActivity extends AppCompatActivity {
         mDatabase.updateChildren(childUpdates);
     }
 
-    //전력 거래 기록 가져오기
-    public void getExchangeRecordList(String userId){
-        Log.d("테스트", "getExchangeRecordList");
-
-        ValueEventListener postListener = new ValueEventListener() {
-
-            //성공
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                ExchangeRecordDTO post = dataSnapshot.getValue(ExchangeRecordDTO.class);
-                Log.d("기록", "key: " + dataSnapshot.getChildrenCount());
-
-                arrayData.clear();
-                arrayIndex.clear();
-                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
-                    String key = postSnapshot.getKey();
-                    ExchangeRecordDTO get = postSnapshot.getValue(ExchangeRecordDTO.class);
-                    String[] info = {get.sender,get.receiever,get.energy};
-                    arrayIndex.add(key);
-                    Log.d("기록", "key: " + key);
-                    Log.d("기록", "info: " + info[0] + info[1] + info[2]);
-
-                }
-                arrayAdapter.clear();
-                arrayAdapter.addAll(arrayIndex);
-                arrayAdapter.notifyDataSetChanged();
-            }
-
-            //실패
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.d(TAG, "loadPost:onCancelled", databaseError.toException());
-                // ...
-            }
-        };
-        Query sortbyAge = FirebaseDatabase.getInstance().getReference().child("exchange_record").orderByChild("sender").equalTo(userId);
-        sortbyAge.addListenerForSingleValueEvent(postListener);
-    }
 
     //발전 에너지 저장
     public void postGeneratorEnergy(String gid){
@@ -411,21 +348,5 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-    //발전 에너지 조회
-    public void getGeneratorEnergy(String gid){
-        id = gid;
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        mDatabase.child("/id_list/"+id+"/energy").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                userEnergy = snapshot.getValue().toString();
-                Log.d("userEnergy",  userEnergy );
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.d("getUsers", databaseError.toException().toString());
-                // ...
-            }
-        });
-    }
+
 }

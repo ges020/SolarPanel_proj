@@ -3,6 +3,7 @@ package com.example.solarpanel_proj;
 import android.os.Bundle;
 import android.util.Log;
 
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -27,8 +28,18 @@ public class ClientThread extends Thread {
             outputStream.writeObject("send");
             outputStream.flush();
             Log.d("ClientThread", "서버로 보냄.");
-            ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream());
-            final String input = (String) inputStream.readObject(); // Object로 받아도 무방
+            //ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream());
+            //final String input = (String) inputStream.readObject(); // Object로 받아도 무방
+
+           // String input = socket.getInputStream().toString();
+            InputStream is = socket.getInputStream();
+            byte[] bytes = null;
+            bytes = new byte[100];
+
+            int readByteCount = is.read(bytes);
+
+            String input = new String(bytes, 0, readByteCount, "UTF-8");
+
             Log.d("ClientThread","받은 데이터 : "+input);
 
 
@@ -38,7 +49,7 @@ public class ClientThread extends Thread {
                 @Override
                 public void run() {
                     //textView.setText("받은 데이터 : "+input);
-                    Log.d("sendData","받은 데이터 : "+input);
+                    //Log.d("sendData","받은 데이터 : "+input);
                 }
             });
 
