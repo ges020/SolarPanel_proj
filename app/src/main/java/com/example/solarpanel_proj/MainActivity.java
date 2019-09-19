@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private DatabaseReference mDatabase;
 
     //test
-    int cnt = 0;
+    static final String[] LIST_MENU = {"LIST1", "LIST2", "LIST3"} ;
 
     //view
     String id="id2";
@@ -64,25 +64,38 @@ public class MainActivity extends AppCompatActivity {
 //    String sendEnergy="";
 //    Date date;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, arrayData) ;
-        //listview = (ListView) findViewById(R.id.listview1) ;
-        //listview.setAdapter(arrayAdapter) ;
+        arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1) ;
+        listview = (ListView) findViewById(R.id.listview) ;
+        listview.setAdapter(arrayAdapter) ;
+
+        getUserList();
+
 
         //postUserSignUp(true);
         //sendEnergy("N","id1","2222");
-        //getUserList();
         //getUserEnergy("id1");
         //updateUserEnergy("222","id1","id2");
         //updateUserEnergy("id2","222",false);
 //        Calendar time = Calendar.getInstance();
 //        ,time.getTime()
         //postExchangeRecord("id2","id1","2223");
-        getExchangeRecordList();
+       // getExchangeRecordList("id1");
+
+        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView parent, View v, int position, long id) {
+
+                String strText = (String) parent.getItemAtPosition(position);
+                Log.d("click", "ID: "+strText);
+
+            }
+        });
     }
 
 
@@ -121,9 +134,10 @@ public class MainActivity extends AppCompatActivity {
                     Log.d("getUsers", "info: " + info[0] + info[1]);
 
                 }
-                //arrayAdapter.clear();
-                //arrayAdapter.addAll(arrayData);
-                //arrayAdapter.notifyDataSetChanged();
+                arrayAdapter.clear();
+                arrayAdapter.addAll(arrayIndex);
+                arrayAdapter.notifyDataSetChanged();
+
             }
 
             //실패
@@ -135,6 +149,7 @@ public class MainActivity extends AppCompatActivity {
         };
         Query sortbyAge = FirebaseDatabase.getInstance().getReference().child("id_list").orderByChild("id");
         sortbyAge.addListenerForSingleValueEvent(postListener);
+
     }
 
     //회원 전력량 변경
@@ -196,18 +211,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    //회원 목록 클릭 이벤트
-    public void clickUserList() {
-        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView parent, View v, int position, long id) {
-
-                String strText = (String) parent.getItemAtPosition(position);
-
-            }
-        });
-    }
-
     //회원 정보
     public void getUserInfo(String id){
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -245,7 +248,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //전력 거래 기록 가져오기
-    public void getExchangeRecordList(){
+    public void getExchangeRecordList(String userId){
         Log.d("테스트", "getExchangeRecordList");
 
         ValueEventListener postListener = new ValueEventListener() {
@@ -279,7 +282,7 @@ public class MainActivity extends AppCompatActivity {
                 // ...
             }
         };
-        Query sortbyAge = FirebaseDatabase.getInstance().getReference().child("exchange_record").orderByChild("sender");
+        Query sortbyAge = FirebaseDatabase.getInstance().getReference().child("exchange_record").orderByChild("sender").equalTo(userId);
         sortbyAge.addListenerForSingleValueEvent(postListener);
     }
 }
