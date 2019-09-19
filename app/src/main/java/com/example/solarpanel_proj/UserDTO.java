@@ -21,7 +21,7 @@ public class UserDTO {
 
 
     public UserDTO(){
-        this.getClass();
+        //this.getClass();
     }
 
     public UserDTO(String id, String password, String email, String phone, String address, String name, String energy) {

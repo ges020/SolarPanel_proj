@@ -14,7 +14,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,14 +49,20 @@ public class MainActivity extends AppCompatActivity {
     ListView listview;
 
     //user
-    UserDTO userInfo;
+    UserDTO userDTO;
     String userEnergy="-1";
+
+    //exchange
+    ExchangeDTO exchangeDTO;
 
     String changeEnergy="";
     String userId="";
 
+
     String sender="";
     String receiver="";
+//    String sendEnergy="";
+//    Date date;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,9 +77,12 @@ public class MainActivity extends AppCompatActivity {
         //sendEnergy("N","id1","2222");
         //getUserList();
         //getUserEnergy("id1");
-        updateUserEnergy("222","id1","id2");
+        //updateUserEnergy("222","id1","id2");
         //updateUserEnergy("id2","222",false);
-
+//        Calendar time = Calendar.getInstance();
+//        ,time.getTime()
+        //postExchangeRecord("id2","id1","2223");
+        getExchangeRecordList();
     }
 
 
@@ -140,8 +152,8 @@ public class MainActivity extends AppCompatActivity {
                 Map<String, Object> childUpdates = new HashMap<>();
 
                 userEnergy = snapshot.getValue().toString();
-                Log.d("유저에너지", userEnergy);
-                Log.d("에너지fidx", changeEnergy);
+                //Log.d("유저에너지", userEnergy);
+                //Log.d("에너지fidx", changeEnergy);
 
                 String tmpEnergy="";
 
@@ -149,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
                 childUpdates.put("/id_list/" + sender+"/energy", tmpEnergy );
 
                 mDatabase.updateChildren(childUpdates);
-                Log.d("업뎃", "끝");
+                //Log.d("업뎃", "끝");
 
             }
             @Override
@@ -202,8 +214,8 @@ public class MainActivity extends AppCompatActivity {
         mDatabase.child("/id_list/"+id).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                userInfo = snapshot.getValue(UserDTO.class);
-                Log.d("getUsers", userInfo.password);
+                userDTO = snapshot.getValue(UserDTO.class);
+                Log.d("getUsers", userDTO.password);
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -213,6 +225,61 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    //전력 거래 기록
+    //전력 거래 기록 저장
+    public void postExchangeRecord(String sender, String receiver, String sendEnergy){
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        Map<String, Object> childUpdates = new HashMap<>();
+        Map<String, Object> postValues = null;
+//
+//        SimpleDateFormat sfd = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+//        sfd.format(new Date(timestamp))
+//
+//        Log.d("시간", date.toString());
 
+
+        ExchangeDTO post = new ExchangeDTO(sender,receiver,sendEnergy);
+        postValues = post.toMap();
+
+        childUpdates.put("/exchange_record/" + sender, postValues);
+        mDatabase.updateChildren(childUpdates);
+    }
+
+    //전력 거래 기록 가져오기
+    public void getExchangeRecordList(){
+        Log.d("테스트", "getExchangeRecordList");
+
+        ValueEventListener postListener = new ValueEventListener() {
+
+            //성공
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ExchangeDTO post = dataSnapshot.getValue(ExchangeDTO.class);
+                Log.d("기록", "key: " + dataSnapshot.getChildrenCount());
+
+                arrayData.clear();
+                arrayIndex.clear();
+                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                    String key = postSnapshot.getKey();
+                    ExchangeDTO get = postSnapshot.getValue(ExchangeDTO.class);
+                    String[] info = {get.sender,get.receiever,get.energy};
+                    arrayIndex.add(key);
+                    Log.d("기록", "key: " + key);
+                    Log.d("기록", "info: " + info[0] + info[1] + info[2]);
+
+                }
+                //arrayAdapter.clear();
+                //arrayAdapter.addAll(arrayData);
+                //arrayAdapter.notifyDataSetChanged();
+            }
+
+            //실패
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d(TAG, "loadPost:onCancelled", databaseError.toException());
+                // ...
+            }
+        };
+        Query sortbyAge = FirebaseDatabase.getInstance().getReference().child("exchange_record").orderByChild("sender");
+        sortbyAge.addListenerForSingleValueEvent(postListener);
+    }
 }
