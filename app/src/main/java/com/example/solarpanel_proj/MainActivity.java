@@ -79,7 +79,10 @@ public class MainActivity extends AppCompatActivity {
         getExchangeEnergyList();
         //postExchangeEnergy("id1","111");
 
-        userSignIn("id1","id1");
+        ClientThread thread = new ClientThread();
+        thread.start();
+
+        //userSignIn("id1","id1");
         //postUserSignUp(true);
         //sendEnergy("N","id1","2222");
         //getUserEnergy("id1");
@@ -142,6 +145,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }catch(Exception e){
                     Toast toast = Toast.makeText(getApplicationContext(), "존재하지 않는 아이디입니다", Toast.LENGTH_SHORT);
+                    toast.show();
 
                 }
             }
@@ -208,11 +212,13 @@ public class MainActivity extends AppCompatActivity {
 
         childUpdates.put("/exchange_list/" + id, postValues);
         mDatabase.updateChildren(childUpdates);
+
+        Toast toast = Toast.makeText(getApplicationContext(), "거래가 등록되었습니다", Toast.LENGTH_SHORT);
+        toast.show();
     }
 
     //거래 목록 조회
     public void getExchangeEnergyList(){
-        Log.d("테스트", "getExchangeRecordList");
 
         ValueEventListener postListener = new ValueEventListener() {
 
@@ -294,6 +300,8 @@ public class MainActivity extends AppCompatActivity {
 
                 mDatabase.updateChildren(childUpdates);
 
+                Toast toast = Toast.makeText(getApplicationContext(), "전력 거래에 성공했습니다", Toast.LENGTH_SHORT);
+                toast.show();
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {

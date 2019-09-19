@@ -12,8 +12,6 @@ public class ExchangeDTO {
     public String energy;
 
 
-
-
     public ExchangeDTO(){
 
     }

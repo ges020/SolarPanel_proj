@@ -11,14 +11,20 @@ import android.os.Handler;
 
 public class ClientThread extends Thread {
     public void run() {
-        String host = "localhost";
-        int port = 5001;
+        Log.d("클라이언트 run", "run");
+
+        String host = "192.168.0.84";
+        int port = 8080;
 
         try {
+            Log.d("서버 연결 전", "연결 전");
+
             Socket socket = new Socket(host, port);
+            Log.d("서버 연결", "연결");
+
 
             ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
-            outputStream.writeObject("전송");
+            outputStream.writeObject("send");
             outputStream.flush();
             Log.d("ClientThread", "서버로 보냄.");
             ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream());
@@ -27,7 +33,7 @@ public class ClientThread extends Thread {
 
 
             Handler handler = new Handler();
-            
+
             handler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -37,6 +43,8 @@ public class ClientThread extends Thread {
             });
 
         } catch (Exception e) {
+            Log.d("서버","서버 오류");
+
             e.printStackTrace();
         }
     }
