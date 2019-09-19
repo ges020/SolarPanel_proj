@@ -26,6 +26,10 @@ public class MainActivity extends AppCompatActivity {
 
     private DatabaseReference mDatabase;
 
+    //test
+    int cnt = 0;
+
+    //view
     String id="id2";
     String password="id2";
     String email = "email2@email";
@@ -41,6 +45,16 @@ public class MainActivity extends AppCompatActivity {
 
     ListView listview;
 
+    //user
+    UserDTO userInfo;
+    String userEnergy="-1";
+
+    String changeEnergy="";
+    String userId="";
+
+    String sender="";
+    String receiver="";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +67,10 @@ public class MainActivity extends AppCompatActivity {
         //postUserSignUp(true);
         //sendEnergy("N","id1","2222");
         //getUserList();
-        getUserInfo("id1");
+        //getUserEnergy("id1");
+        updateUserEnergy("222","id1","id2");
+        //updateUserEnergy("id2","222",false);
+
     }
 
 
@@ -108,22 +125,63 @@ public class MainActivity extends AppCompatActivity {
         sortbyAge.addListenerForSingleValueEvent(postListener);
     }
 
-    //전력 전송
-    public boolean sendEnergy(String sender, String receiever, String energy){
+    //회원 전력량 변경
+    public void updateUserEnergy(String energy, String sender1, String receiver1){
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        Map<String, Object> childUpdates = new HashMap<>();
 
-        childUpdates.put("/id_list/" + receiever+"/energy", energy);
-        mDatabase.updateChildren(childUpdates);
+        changeEnergy = energy;
+        userId = id;
+        sender = sender1;
+        receiver = receiver1;
 
-        return true;
-    }
+        mDatabase.child("/id_list/"+sender+"/energy").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                Map<String, Object> childUpdates = new HashMap<>();
 
-    //회원 전력량
-    public String getUserEnergy(String user){
+                userEnergy = snapshot.getValue().toString();
+                Log.d("유저에너지", userEnergy);
+                Log.d("에너지fidx", changeEnergy);
 
+                String tmpEnergy="";
 
-        return user;
+                tmpEnergy = String.valueOf(Integer.parseInt(userEnergy) - Integer.parseInt(changeEnergy));
+                childUpdates.put("/id_list/" + sender+"/energy", tmpEnergy );
+
+                mDatabase.updateChildren(childUpdates);
+                Log.d("업뎃", "끝");
+
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d("getUsers", databaseError.toException().toString());
+                // ...
+            }
+        });
+
+        mDatabase.child("/id_list/"+receiver+"/energy").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                Map<String, Object> childUpdates = new HashMap<>();
+
+                userEnergy = snapshot.getValue().toString();
+                Log.d("유저에너지", userEnergy);
+
+                String tmpEnergy="";
+
+                tmpEnergy = String.valueOf(Integer.parseInt(userEnergy) + Integer.parseInt(changeEnergy));
+                childUpdates.put("/id_list/" + receiver+"/energy", tmpEnergy );
+
+                mDatabase.updateChildren(childUpdates);
+                Log.d("업뎃", "끝");
+
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d("getUsers", databaseError.toException().toString());
+                // ...
+            }
+        });
     }
 
     //회원 목록 클릭 이벤트
@@ -142,11 +200,10 @@ public class MainActivity extends AppCompatActivity {
     public void getUserInfo(String id){
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mDatabase.child("/id_list/"+id).addValueEventListener(new ValueEventListener() {
-
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                UserDTO result = snapshot.getValue(UserDTO.class);
-                Log.d("getUsers", result.password);
+                userInfo = snapshot.getValue(UserDTO.class);
+                Log.d("getUsers", userInfo.password);
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -155,4 +212,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    //전력 거래 기록
+
 }

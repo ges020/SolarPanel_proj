@@ -21,7 +21,7 @@ public class UserDTO {
 
 
     public UserDTO(){
-        // Default constructor required for calls to DataSnapshot.getValue(UserDTO.class)
+        this.getClass();
     }
 
     public UserDTO(String id, String password, String email, String phone, String address, String name, String energy) {
