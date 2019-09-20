@@ -44,6 +44,8 @@ public class GeneratorRecordActivity extends AppCompatActivity {
     static ArrayList<String> arrayIndex =  new ArrayList<String>();
     static ArrayList<String> arrayData = new ArrayList<String>();
 
+    private ListView m_oListView = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +56,8 @@ public class GeneratorRecordActivity extends AppCompatActivity {
         listview.setAdapter(arrayAdapter) ;
 
         getGeneratorRecord("id1");
+
+        m_oListView = (ListView)findViewById(R.id.listview);
 
         generatorMenuBTN = (findViewById(R.id.menu_pic1));
         exchangeMenuBTN = (findViewById(R.id.menu_pic2));
@@ -106,15 +110,34 @@ public class GeneratorRecordActivity extends AppCompatActivity {
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                     String key = postSnapshot.getKey();
                     GeneratorDTO get = postSnapshot.getValue(GeneratorDTO.class);
-                        String[] info = {get.id,get.energy,get.date};
-                    arrayIndex.add(key);
+                    String[] info = {get.id,get.energy,get.date};
+
+                    arrayIndex.add("전력량 : "+get.energy);
+                    arrayData.add(get.date);
                     Log.d("기록", "key: " + key);
                     Log.d("기록", "info: " + info[0] + info[1] + info[2]);
 
                 }
-                arrayAdapter.clear();
-                arrayAdapter.addAll(arrayIndex);
-                arrayAdapter.notifyDataSetChanged();
+
+                int nDatCnt=0;
+                ArrayList<ItemData> oData = new ArrayList<>();
+                for (int i=0; i<arrayIndex.size(); ++i)
+                {
+                    ItemData oItem = new ItemData();
+                    oItem.strTitle = arrayIndex.get(i);
+                    oItem.strContent = arrayData.get(i);
+                    Log.d("커스텀",oItem.strTitle+","+oItem.strContent);
+                    oData.add(oItem);
+                    if (nDatCnt >= arrayIndex.size()) nDatCnt = 0;
+                }
+
+                // ListView, Adapter 생성 및 연결 ------------------------
+                ListAdapter oAdapter = new ListAdapter(oData);
+                m_oListView.setAdapter(oAdapter);
+
+//                arrayAdapter.clear();
+//                arrayAdapter.addAll(arrayIndex);
+//                arrayAdapter.notifyDataSetChanged();
             }
 
             //실패

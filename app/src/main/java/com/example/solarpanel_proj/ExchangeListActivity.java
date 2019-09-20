@@ -21,7 +21,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.lang.reflect.Array;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -92,37 +95,16 @@ public class ExchangeListActivity extends AppCompatActivity {
         exchangeBTN = (findViewById(R.id.exchangeBTN));
         listview = (findViewById(R.id.listview));
 
-        //arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1) ;
+        //postExchangeRecord("id2","id1","2223","223");
 
 
-
-        // 데이터 1000개 생성--------------------------------.
-        String[] strDate = {"2017-01-03", "1965-02-23", "2016-04-13", "2010-01-01", "2017-06-20",
-                "2012-07-08", "1980-04-14", "2016-09-26", "2014-10-11", "2010-12-24"};
-        int nDatCnt=0;
-        ArrayList<ItemData> oData = new ArrayList<>();
-        for (int i=0; i<1000; ++i)
-        {
-            ItemData oItem = new ItemData();
-            oItem.strTitle = "데이터 " + (i+1);
-            oItem.strContent = strDate[nDatCnt++];
-            oData.add(oItem);
-            if (nDatCnt >= strDate.length) nDatCnt = 0;
-        }
-
-        // ListView, Adapter 생성 및 연결 ------------------------
         m_oListView = (ListView)findViewById(R.id.listview);
-        ListAdapter oAdapter = new ListAdapter(oData);
-        m_oListView.setAdapter(oAdapter);
 
-
-
-
-
+        //arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1) ;
         //listview = (ListView) findViewById(R.id.listview) ;
         //listview.setAdapter(arrayAdapter) ;
 
-        //getExchangeEnergyList();
+        getExchangeEnergyList();
 
         generatorMenuBTN.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -159,6 +141,26 @@ public class ExchangeListActivity extends AppCompatActivity {
                 startActivityForResult(intent, sub);//액티비티 띄우기
             }
         });
+    }
+
+    //전력 거래 기록 저장
+    public void postExchangeRecord(String sender, String receiver, String sendEnergy, String money){
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        Map<String, Object> childUpdates = new HashMap<>();
+        Map<String, Object> postValues = null;
+
+        Date date = new Date();
+        Date newDate = new Date(date.getTime());
+        SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM");
+        String stringdate = dt.format(newDate);
+
+        ExchangeRecordDTO post = new ExchangeRecordDTO(sender,receiver,sendEnergy,money,stringdate);
+        postValues = post.toMap();
+
+        mDatabase.child("exchange_record").push().setValue(postValues);
+
+        //childUpdates.put("/exchange_record/" + sender, postValues);
+        //mDatabase.updateChildren(childUpdates);
     }
 
     //회원 간 전력량 변경
@@ -220,7 +222,6 @@ public class ExchangeListActivity extends AppCompatActivity {
 
     //거래 목록 조회
     public void getExchangeEnergyList(){
-
         ValueEventListener postListener = new ValueEventListener() {
 
             //성공
@@ -235,14 +236,31 @@ public class ExchangeListActivity extends AppCompatActivity {
                     String key = postSnapshot.getKey();
                     ExchangeDTO get = postSnapshot.getValue(ExchangeDTO.class);
                     String[] info = {get.sender,get.energy};
-                    arrayIndex.add(key);
+                    arrayIndex.add(get.energy);
+                    arrayData.add(get.money);
                     Log.d("기록", "key: " + key);
                     Log.d("기록", "info: " + info[0] + info[1]);
 
                 }
-                arrayAdapter.clear();
-                arrayAdapter.addAll(arrayIndex);
-                arrayAdapter.notifyDataSetChanged();
+                int nDatCnt=0;
+                ArrayList<ItemData> oData = new ArrayList<>();
+                for (int i=0; i<arrayIndex.size(); ++i)
+                {
+                    ItemData oItem = new ItemData();
+                    oItem.strTitle = "전력량 : "+arrayIndex.get(i);
+                    oItem.strContent = "가격: "+arrayData.get(i)+"만원";
+                    Log.d("커스텀",oItem.strTitle+","+oItem.strContent);
+                    oData.add(oItem);
+                    if (nDatCnt >= arrayIndex.size()) nDatCnt = 0;
+                }
+
+                // ListView, Adapter 생성 및 연결 ------------------------
+                ListAdapter oAdapter = new ListAdapter(oData);
+                m_oListView.setAdapter(oAdapter);
+
+//                arrayAdapter.clear();
+//                arrayAdapter.addAll(arrayIndex);
+//                arrayAdapter.notifyDataSetChanged();
             }
 
             //실패

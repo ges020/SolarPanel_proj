@@ -259,13 +259,13 @@
 
     <ImageView
         android:id="@+id/detailBTN"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="104dp"
+        android:layout_width="110dp"
+        android:layout_height="161dp"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="24dp"
         app:layout_constraintStart_toEndOf="@+id/long_frame5"
         app:layout_constraintTop_toBottomOf="@+id/menu_background"
-        app:srcCompat="@drawable/common_google_signin_btn_icon_light_normal_background" />
+        app:srcCompat="@drawable/normal_frame" />
 
     <TextView
         android:id="@+id/textView5"
@@ -397,5 +397,17 @@
         android:textStyle="bold|italic"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/underground" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="26dp"
+        android:layout_marginTop="60dp"
+        android:text="기록"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/detailBTN"
+        app:layout_constraintTop_toTopOf="@+id/detailBTN" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

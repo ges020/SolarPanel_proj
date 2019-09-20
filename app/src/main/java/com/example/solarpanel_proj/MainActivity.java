@@ -393,23 +393,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    //전력 거래 기록 저장
-    public void postExchangeRecord(String sender, String receiver, String sendEnergy, String money){
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        Map<String, Object> childUpdates = new HashMap<>();
-        Map<String, Object> postValues = null;
 
-        Date date = new Date();
-        Date newDate = new Date(date.getTime());
-        SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM");
-        String stringdate = dt.format(newDate);
-
-        ExchangeRecordDTO post = new ExchangeRecordDTO(sender,receiver,sendEnergy,money,stringdate);
-        postValues = post.toMap();
-
-        childUpdates.put("/exchange_record/" + sender, postValues);
-        mDatabase.updateChildren(childUpdates);
-    }
 
 
     //발전 에너지 저장

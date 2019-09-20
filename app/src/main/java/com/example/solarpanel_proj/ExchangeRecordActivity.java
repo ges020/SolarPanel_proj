@@ -70,6 +70,7 @@ public class ExchangeRecordActivity extends AppCompatActivity {
     ImageView recordMenuBTN;
     ImageView setMenuBTN;
 
+    private ListView m_oListView = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,14 +78,18 @@ public class ExchangeRecordActivity extends AppCompatActivity {
         setContentView(R.layout.activity_exchange_record);
 
 
-        arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1) ;
-        listview = (ListView) findViewById(R.id.listview) ;
-        listview.setAdapter(arrayAdapter) ;
+//        arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1) ;
+//        listview = (ListView) findViewById(R.id.listview) ;
+//        listview.setAdapter(arrayAdapter) ;
+
+
 
         generatorMenuBTN = (findViewById(R.id.menu_pic1));
         exchangeMenuBTN = (findViewById(R.id.menu_pic2));
         recordMenuBTN = (findViewById(R.id.menu_pic3));
         setMenuBTN = (findViewById(R.id.menu_pic4));
+
+        m_oListView = (ListView)findViewById(R.id.listview);
 
         getExchangeRecordList("id1");
 
@@ -117,7 +122,7 @@ public class ExchangeRecordActivity extends AppCompatActivity {
             }
         });
 
-        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        m_oListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView parent, View v, int position, long id) {
 
@@ -137,7 +142,6 @@ public class ExchangeRecordActivity extends AppCompatActivity {
             //성공
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                ExchangeRecordDTO post = dataSnapshot.getValue(ExchangeRecordDTO.class);
                 Log.d("기록", "key: " + dataSnapshot.getChildrenCount());
 
                 arrayData.clear();
@@ -148,13 +152,29 @@ public class ExchangeRecordActivity extends AppCompatActivity {
                     ExchangeRecordDTO get = postSnapshot.getValue(ExchangeRecordDTO.class);
 
                     String[] info = {get.sender,get.receiver,get.energy,get.money,get.date};
-                    arrayIndex.add(key);
+                    arrayIndex.add("전력량 : "+get.energy+" / "+get.date);
+                    arrayData.add("판매자 : "+get.sender+" 가격 : "+get.money);
                     Log.d("기록", "info: " + info[0] + info[1] + info[2] + info[3]+info[4]);
 
                 }
-                arrayAdapter.clear();
-                arrayAdapter.addAll(arrayIndex);
-                arrayAdapter.notifyDataSetChanged();
+
+                int nDatCnt=0;
+                ArrayList<ItemData> oData = new ArrayList<>();
+                for (int i=0; i<arrayIndex.size(); ++i)
+                {
+                    ItemData oItem = new ItemData();
+                    oItem.strTitle = arrayIndex.get(i);
+                    oItem.strContent = arrayData.get(i);
+                    Log.d("커스텀",oItem.strTitle+","+oItem.strContent);
+                    oData.add(oItem);
+                }
+
+                // ListView, Adapter 생성 및 연결 ------------------------
+                ListAdapter oAdapter = new ListAdapter(oData);
+                m_oListView.setAdapter(oAdapter);
+//                arrayAdapter.clear();
+//                arrayAdapter.addAll(arrayIndex);
+//                arrayAdapter.notifyDataSetChanged();
             }
 
             //실패
@@ -164,7 +184,7 @@ public class ExchangeRecordActivity extends AppCompatActivity {
                 // ...
             }
         };
-        Query sortbyAge = FirebaseDatabase.getInstance().getReference().child("exchange_record").orderByChild("sender").equalTo(userId);
+        Query sortbyAge = FirebaseDatabase.getInstance().getReference().child("exchange_record").orderByChild("receiver").equalTo(userId);
         sortbyAge.addListenerForSingleValueEvent(postListener);
     }
 

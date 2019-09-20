@@ -58,6 +58,7 @@ public class GeneratorActivity extends AppCompatActivity {
 
     UserDTO userDTO;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +76,8 @@ public class GeneratorActivity extends AppCompatActivity {
         totalEnergyText = (findViewById(R.id.totalEnergyText));
         monthEnergyText = (findViewById(R.id.monthEnergyText));
         profitText = (findViewById(R.id.profitText));
+
+
 
         getEnergyRecordMonth();
 

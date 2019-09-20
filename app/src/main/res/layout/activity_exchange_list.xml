@@ -56,7 +56,7 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
+        app:layout_constraintVertical_bias="0.99"
         app:srcCompat="@drawable/underground" />
 
     <ImageView
@@ -196,14 +196,27 @@
         android:layout_marginTop="20dp"
         app:layout_constraintStart_toStartOf="@+id/list_background"
         app:layout_constraintTop_toTopOf="@+id/list_background" />
+
     <ImageView
         android:id="@+id/exchangeBTN"
-        android:layout_width="80dp"
-        android:layout_height="91dp"
-        android:layout_marginStart="488dp"
-        android:layout_marginTop="80dp"
+        android:layout_width="110dp"
+        android:layout_height="161dp"
+        android:layout_marginStart="476dp"
+        android:layout_marginTop="24dp"
         app:layout_constraintStart_toStartOf="@+id/underground"
         app:layout_constraintTop_toBottomOf="@+id/menu_background"
-        app:srcCompat="@android:drawable/arrow_down_float" />
+        app:srcCompat="@drawable/normal_frame" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="26dp"
+        android:layout_marginTop="60dp"
+        android:text="등록"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/exchangeBTN"
+        app:layout_constraintTop_toTopOf="@+id/exchangeBTN" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
