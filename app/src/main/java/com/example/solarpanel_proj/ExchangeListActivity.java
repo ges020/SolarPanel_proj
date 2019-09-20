@@ -5,11 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Contacts;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -73,6 +75,11 @@ public class ExchangeListActivity extends AppCompatActivity {
     ImageView setMenuBTN;
     ImageView exchangeBTN;
 
+    ArrayList<ExchangeDTO> exchangeList = new ArrayList<ExchangeDTO>();
+
+    private ListView m_oListView = null;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,11 +92,37 @@ public class ExchangeListActivity extends AppCompatActivity {
         exchangeBTN = (findViewById(R.id.exchangeBTN));
         listview = (findViewById(R.id.listview));
 
-        arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1) ;
-        listview = (ListView) findViewById(R.id.listview) ;
-        listview.setAdapter(arrayAdapter) ;
+        //arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1) ;
 
-        getExchangeEnergyList();
+
+
+        // 데이터 1000개 생성--------------------------------.
+        String[] strDate = {"2017-01-03", "1965-02-23", "2016-04-13", "2010-01-01", "2017-06-20",
+                "2012-07-08", "1980-04-14", "2016-09-26", "2014-10-11", "2010-12-24"};
+        int nDatCnt=0;
+        ArrayList<ItemData> oData = new ArrayList<>();
+        for (int i=0; i<1000; ++i)
+        {
+            ItemData oItem = new ItemData();
+            oItem.strTitle = "데이터 " + (i+1);
+            oItem.strContent = strDate[nDatCnt++];
+            oData.add(oItem);
+            if (nDatCnt >= strDate.length) nDatCnt = 0;
+        }
+
+        // ListView, Adapter 생성 및 연결 ------------------------
+        m_oListView = (ListView)findViewById(R.id.listview);
+        ListAdapter oAdapter = new ListAdapter(oData);
+        m_oListView.setAdapter(oAdapter);
+
+
+
+
+
+        //listview = (ListView) findViewById(R.id.listview) ;
+        //listview.setAdapter(arrayAdapter) ;
+
+        //getExchangeEnergyList();
 
         generatorMenuBTN.setOnClickListener(new View.OnClickListener() {
             @Override

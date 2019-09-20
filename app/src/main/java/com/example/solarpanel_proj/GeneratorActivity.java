@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -35,6 +36,11 @@ public class GeneratorActivity extends AppCompatActivity {
 
     String changeEnergy="";
 
+    TextView todayEnergyText;
+    TextView totalEnergyText;
+    TextView monthEnergyText;
+    TextView profitText;
+
     ImageView generatorMenuBTN;
     ImageView exchangeMenuBTN;
     ImageView recordMenuBTN;
@@ -44,10 +50,10 @@ public class GeneratorActivity extends AppCompatActivity {
 
 //    ListView listview;
 
-//    ArrayAdapter<String> arrayAdapter;
-//
-//    static ArrayList<String> arrayIndex =  new ArrayList<String>();
-    //    static ArrayList<String> arrayData = new ArrayList<String>();
+    ArrayAdapter<String> arrayAdapter;
+
+    static ArrayList<String> arrayIndex =  new ArrayList<String>();
+    static ArrayList<String> arrayData = new ArrayList<String>();
 
 
     UserDTO userDTO;
@@ -57,12 +63,20 @@ public class GeneratorActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_generator);
 
-        postGeneratorEnergy("id1","222");
+        //postGeneratorEnergy("id1","222");
+
 
 //        arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1) ;
 //        listview = (ListView) findViewById(R.id.listview) ;
 //        listview.setAdapter(arrayAdapter) ;
 
+
+        todayEnergyText = (findViewById(R.id.todayEnergyText));
+        totalEnergyText = (findViewById(R.id.totalEnergyText));
+        monthEnergyText = (findViewById(R.id.monthEnergyText));
+        profitText = (findViewById(R.id.profitText));
+
+        getEnergyRecordMonth();
 
         generatorMenuBTN = (findViewById(R.id.menu_pic1));
         exchangeMenuBTN = (findViewById(R.id.menu_pic2));
@@ -108,6 +122,13 @@ public class GeneratorActivity extends AppCompatActivity {
     }
 
 
+
+    public void setUserGenerator(){
+        totalEnergyText.setText("");
+        totalEnergyText.setText("");
+        monthEnergyText.setText("");
+        profitText.setText("");
+    }
 
     //현재 누적 발전 에너지 변경, 저장
     public void postGeneratorEnergy(String gid, String gchangeEnergy){
@@ -177,5 +198,58 @@ public class GeneratorActivity extends AppCompatActivity {
                 // ...
             }
         });
+    }
+
+    public void getEnergyRecordMonth(){
+        ValueEventListener postListener = new ValueEventListener() {
+
+            //성공
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.d("월별기록", "key: " + dataSnapshot.getChildrenCount());
+
+                arrayData.clear();
+                arrayIndex.clear();
+                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                    String key = postSnapshot.getKey();
+                    GeneratorDTO get = postSnapshot.getValue(GeneratorDTO.class);
+                    String[] info = {get.id,get.energy,get.date};
+                    arrayIndex.add(key);
+                    Log.d("기록", "key: " + key);
+                    Log.d("기록", "info: " + info[0] + info[1]+info[2]);
+
+                }
+//                arrayAdapter.clear();
+//                arrayAdapter.addAll(arrayIndex);
+//                arrayAdapter.notifyDataSetChanged();
+            }
+
+            //실패
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d("fail","실패");
+                // ...
+            }
+        };
+
+        Date date = new Date();
+        Date newDate = new Date(date.getTime());
+        SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM");
+        String stringdate = dt.format(newDate);
+
+        Query sortbyAge = FirebaseDatabase.getInstance().getReference().child("generator_record").orderByChild("date").startAt(stringdate);
+        sortbyAge.addListenerForSingleValueEvent(postListener);
+    }
+
+    public void getTotalEnergy(){
+
+    }
+
+    public void getTodayEnergy(){
+
+    }
+
+    public void getProfitEnergy(){
+
     }
 }

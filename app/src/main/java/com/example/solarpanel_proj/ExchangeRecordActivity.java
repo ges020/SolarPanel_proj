@@ -60,6 +60,7 @@ public class ExchangeRecordActivity extends AppCompatActivity {
 
     String sender="";
     String receiver="";
+
 //    String sendEnergy="";
 //    Date date;
 
@@ -146,9 +147,9 @@ public class ExchangeRecordActivity extends AppCompatActivity {
                     Log.d("기록", "key: " + key);
                     ExchangeRecordDTO get = postSnapshot.getValue(ExchangeRecordDTO.class);
 
-                    String[] info = {get.sender,get.receiver,get.energy,get.money};
+                    String[] info = {get.sender,get.receiver,get.energy,get.money,get.date};
                     arrayIndex.add(key);
-                    Log.d("기록", "info: " + info[0] + info[1] + info[2] + info[3]);
+                    Log.d("기록", "info: " + info[0] + info[1] + info[2] + info[3]+info[4]);
 
                 }
                 arrayAdapter.clear();

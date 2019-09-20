@@ -17,7 +17,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -396,14 +398,13 @@ public class MainActivity extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         Map<String, Object> childUpdates = new HashMap<>();
         Map<String, Object> postValues = null;
-//
-//        SimpleDateFormat sfd = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-//        sfd.format(new Date(timestamp))
-//
-//        Log.d("시간", date.toString());
 
+        Date date = new Date();
+        Date newDate = new Date(date.getTime());
+        SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM");
+        String stringdate = dt.format(newDate);
 
-        ExchangeRecordDTO post = new ExchangeRecordDTO(sender,receiver,sendEnergy,money);
+        ExchangeRecordDTO post = new ExchangeRecordDTO(sender,receiver,sendEnergy,money,stringdate);
         postValues = post.toMap();
 
         childUpdates.put("/exchange_record/" + sender, postValues);
