@@ -6,6 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".LoginActivity">
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="610dp"
+        android:layout_height="980dp"
+        android:layout_marginStart="4dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@color/colorAccent" />
+
     <EditText
         android:id="@+id/idText"
         android:layout_width="wrap_content"
@@ -40,6 +49,7 @@
         android:id="@+id/loginButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorPrimary"
         android:text="로그인"
         android:textSize="40sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -61,4 +71,43 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.671" />
+
+    <ImageView
+        android:id="@+id/collector2"
+        android:layout_width="281dp"
+        android:layout_height="178dp"
+        android:layout_marginEnd="188dp"
+        android:contentDescription="@string/app_name"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.03"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.965"
+        app:srcCompat="@drawable/collector" />
+
+    <ImageView
+        android:id="@+id/ground2"
+        android:layout_width="600dp"
+        android:layout_height="56.25dp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/ground"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/collector2"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <ImageView
+        android:id="@+id/sun2"
+        android:layout_width="101dp"
+        android:layout_height="128dp"
+        android:contentDescription="@string/app_name"
+        app:layout_constraintBottom_toTopOf="@+id/collector2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.875"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageView"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/sun" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

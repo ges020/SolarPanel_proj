@@ -3,6 +3,7 @@ package com.example.solarpanel_proj;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -57,12 +58,15 @@ public class GeneratorActivity extends AppCompatActivity {
 
 
     UserDTO userDTO;
-
+    String loginId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_generator);
+
+        SharedPreferences sf = getSharedPreferences("userFile",MODE_PRIVATE);
+        loginId = sf.getString("loginId","");
 
         //postGeneratorEnergy("id1","222");
 
@@ -111,7 +115,13 @@ public class GeneratorActivity extends AppCompatActivity {
         setMenuBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ExchangeRecordActivity.class);
+                SharedPreferences sharedPreferences = getSharedPreferences("userFile",MODE_PRIVATE);
+
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("loginId","");
+                editor.commit();
+
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivityForResult(intent, sub);//액티비티 띄우기
             }
         });
@@ -130,7 +140,10 @@ public class GeneratorActivity extends AppCompatActivity {
         getEnergyRecordMonth();
         getTodayEnergy();
         getTotalEnergy();
-        getProfitEnergy("id1");
+        SharedPreferences sf = getSharedPreferences("userFile",MODE_PRIVATE);
+        String loginId = sf.getString("loginId","");
+
+        getProfitEnergy(loginId);
     }
 
     //현재 누적 발전 에너지 변경, 저장
@@ -219,7 +232,9 @@ public class GeneratorActivity extends AppCompatActivity {
                     String key = postSnapshot.getKey();
                     GeneratorDTO get = postSnapshot.getValue(GeneratorDTO.class);
                     String[] info = {get.id,get.energy,get.date};
-                    sum += Integer.parseInt(get.energy);
+                    if(loginId.equals(get.id)) {
+                        sum += Integer.parseInt(get.energy);
+                    }
                     arrayIndex.add(key);
                     Log.d("기록", "key: " + key);
                     Log.d("기록", "info: " + info[0] + info[1]+info[2]);
@@ -263,7 +278,9 @@ public class GeneratorActivity extends AppCompatActivity {
                     String key = postSnapshot.getKey();
                     GeneratorDTO get = postSnapshot.getValue(GeneratorDTO.class);
                     String[] info = {get.id,get.energy,get.date};
-                    sum += Integer.parseInt(get.energy);
+                    if(loginId.equals(get.id)) {
+                        sum += Integer.parseInt(get.energy);
+                    }
                     arrayIndex.add(key);
                     Log.d("기록", "key: " + key);
                     Log.d("기록", "info: " + info[0] + info[1]+info[2]);
@@ -307,7 +324,9 @@ public class GeneratorActivity extends AppCompatActivity {
                     String key = postSnapshot.getKey();
                     GeneratorDTO get = postSnapshot.getValue(GeneratorDTO.class);
                     String[] info = {get.id,get.energy,get.date};
-                    sum += Integer.parseInt(get.energy);
+                    if(loginId.equals(get.id)) {
+                        sum += Integer.parseInt(get.energy);
+                    }
                     arrayIndex.add(key);
                     Log.d("기록", "key: " + key);
                     Log.d("기록", "info: " + info[0] + info[1]+info[2]);
@@ -345,7 +364,9 @@ public class GeneratorActivity extends AppCompatActivity {
                     String key = postSnapshot.getKey();
                     ExchangeRecordDTO get = postSnapshot.getValue(ExchangeRecordDTO.class);
                     String[] info = {get.money,get.energy,get.date};
-                    sum += Integer.parseInt(get.money);
+                    if(loginId.equals(get.sender)) {
+                        sum += Integer.parseInt(get.money);
+                    }
                     Log.d("머니", "sum: " + String.valueOf(sum));
                     Log.d("money", "info: " + info[0] + info[1]+info[2]);
                 }

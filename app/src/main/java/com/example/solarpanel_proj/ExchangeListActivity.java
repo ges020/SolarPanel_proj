@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.provider.Contacts;
 import android.util.Log;
@@ -133,7 +134,13 @@ public class ExchangeListActivity extends AppCompatActivity {
         setMenuBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ExchangeRecordActivity.class);
+                SharedPreferences sharedPreferences = getSharedPreferences("userFile",MODE_PRIVATE);
+
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("loginId","");
+                editor.commit();
+
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivityForResult(intent, sub);//액티비티 띄우기
             }
         });
@@ -168,8 +175,12 @@ public class ExchangeListActivity extends AppCompatActivity {
 
                         getExchangeEnergyList();
                         //전력값 변경;
-                        updateUserEnergy(exchangeList.get(position).energy,exchangeList.get(position).sender,"id1");
-                        postExchangeRecord(exchangeList.get(position).sender,"id1",exchangeList.get(position).energy,exchangeList.get(position).money);
+
+                        SharedPreferences sf = getSharedPreferences("userFile",MODE_PRIVATE);
+                        String loginId = sf.getString("loginId","");
+
+                        updateUserEnergy(exchangeList.get(position).energy,exchangeList.get(position).sender,loginId);
+                        postExchangeRecord(exchangeList.get(position).sender,loginId,exchangeList.get(position).energy,exchangeList.get(position).money);
                     }
                 }).setNegativeButton("No",
                 new DialogInterface.OnClickListener() {

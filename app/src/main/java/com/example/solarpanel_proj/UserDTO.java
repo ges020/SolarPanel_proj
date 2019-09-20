@@ -14,7 +14,6 @@ public class UserDTO {
     public String password;
     public String email;
     public String phone;
-    public String address;
     public String name;
     public String energy;
 
@@ -24,12 +23,11 @@ public class UserDTO {
         //this.getClass();
     }
 
-    public UserDTO(String id, String password, String email, String phone, String address, String name, String energy) {
+    public UserDTO(String id, String password, String email, String phone, String name, String energy) {
         this.id = id;
         this.password = password;
         this.email = email;
         this.phone = phone;
-        this.address = address;
         this.name = name;
         this.energy = energy;
 
@@ -43,7 +41,6 @@ public class UserDTO {
         result.put("password",password);
         result.put("email", email);
         result.put("phone", phone);
-        result.put("address", address);
         result.put("name", name);
         result.put("energy", energy);
 

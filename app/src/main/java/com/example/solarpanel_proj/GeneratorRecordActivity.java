@@ -1,6 +1,7 @@
 package com.example.solarpanel_proj;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -55,7 +56,10 @@ public class GeneratorRecordActivity extends AppCompatActivity {
         listview = (ListView) findViewById(R.id.listview) ;
         listview.setAdapter(arrayAdapter) ;
 
-        getGeneratorRecord("id1");
+        SharedPreferences sf = getSharedPreferences("userFile",MODE_PRIVATE);
+        String loginId = sf.getString("loginId","");
+
+        getGeneratorRecord(loginId);
 
         m_oListView = (ListView)findViewById(R.id.listview);
 
@@ -88,7 +92,13 @@ public class GeneratorRecordActivity extends AppCompatActivity {
         setMenuBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ExchangeRecordActivity.class);
+                SharedPreferences sharedPreferences = getSharedPreferences("userFile",MODE_PRIVATE);
+
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("loginId","");
+                editor.commit();
+
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivityForResult(intent, sub);//액티비티 띄우기
             }
         });

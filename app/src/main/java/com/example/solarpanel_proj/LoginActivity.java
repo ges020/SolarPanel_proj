@@ -2,11 +2,17 @@ package com.example.solarpanel_proj;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -58,14 +64,41 @@ public class LoginActivity extends AppCompatActivity {
     String sender="";
     String receiver="";
 
-    // 로그인 성공 시 sharedpreference에 값 저장해 자동 로그인이 가능하게 함.
-    // 로그아웃 구현하기
-    //
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        SharedPreferences sf = getSharedPreferences("userFile",MODE_PRIVATE);
+        String loginId = sf.getString("loginId","");
+
+        if(loginId!=""){
+            Intent intent = new Intent(getApplicationContext(), GeneratorActivity.class);
+            startActivityForResult(intent, sub);//액티비티 띄우기
+        }
+
+        final EditText idText = (EditText) findViewById(R.id.idText);
+        final EditText passwordText = (EditText) findViewById(R.id.passwordText);
+        final Button loginButton = (Button) findViewById(R.id.loginButton);
+        TextView registerButton = (TextView) findViewById(R.id.registerButton);
+
+
+
+        registerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
+                startActivityForResult(intent, sub);//액티비티 띄우기
+            }
+        });
+
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                userSignIn(idText.getText().toString(),passwordText.getText().toString());
+
+            }
+        });
     }
 
     public void userSignIn(String sid, String spw){
@@ -82,12 +115,18 @@ public class LoginActivity extends AppCompatActivity {
 
                 try {
                     if (password.equals(userDTO.password)) {
-                        Log.d("login", "success ");
+                        Log.d("login", "success :"+id);
                         Toast toast = Toast.makeText(getApplicationContext(), "로그인 성공", Toast.LENGTH_SHORT);
                         toast.show();
-                        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                        startActivityForResult(intent, sub);//액티비티 띄우기
+                        SharedPreferences sharedPreferences = getSharedPreferences("userFile",MODE_PRIVATE);
 
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("loginId",id);
+                        editor.commit();
+
+
+                        Intent intent = new Intent(getApplicationContext(), GeneratorActivity.class);
+                        startActivityForResult(intent, sub);//액티비티 띄우기
                     } else {
                         Log.d("login", "fail ");
                         Toast toast = Toast.makeText(getApplicationContext(), "아이디나 비밀번호가 일치하지 않습니다", Toast.LENGTH_SHORT);
