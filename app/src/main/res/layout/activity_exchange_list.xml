@@ -174,17 +174,36 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.719"
         app:srcCompat="@drawable/setting" />
-
     <ImageView
-        android:id="@+id/long_frame"
+        android:id="@+id/list_background"
         android:layout_width="420dp"
-        android:layout_height="100dp"
+        android:layout_height="588dp"
         android:layout_marginEnd="152dp"
-        android:src="@drawable/long_frame"
         android:contentDescription="@string/app_name"
+        android:src="@drawable/list_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.391" />
+        app:layout_constraintVertical_bias="0.905" />
+
+    <ListView
+        android:id="@+id/listview"
+        android:layout_width="390dp"
+        android:layout_height="539dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="@+id/list_background"
+        app:layout_constraintTop_toTopOf="@+id/list_background" />
+    <ImageView
+        android:id="@+id/exchangeBTN"
+        android:layout_width="80dp"
+        android:layout_height="91dp"
+        android:layout_marginStart="488dp"
+        android:layout_marginTop="80dp"
+        app:layout_constraintStart_toStartOf="@+id/underground"
+        app:layout_constraintTop_toBottomOf="@+id/menu_background"
+        app:srcCompat="@android:drawable/arrow_down_float" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

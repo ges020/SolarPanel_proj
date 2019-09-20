@@ -19,7 +19,7 @@ import java.util.ArrayList;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class GeneratorRecordActicity extends AppCompatActivity {
+public class GeneratorRecordActivity extends AppCompatActivity {
 
     public static final int sub = 1001; /*다른 액티비티를 띄우기 위한 요청코드(상수)*/
 
@@ -44,11 +44,6 @@ public class GeneratorRecordActicity extends AppCompatActivity {
     static ArrayList<String> arrayIndex =  new ArrayList<String>();
     static ArrayList<String> arrayData = new ArrayList<String>();
 
-
-    UserDTO userDTO;
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +53,7 @@ public class GeneratorRecordActicity extends AppCompatActivity {
         listview = (ListView) findViewById(R.id.listview) ;
         listview.setAdapter(arrayAdapter) ;
 
+        getGeneratorRecord("id1");
 
         generatorMenuBTN = (findViewById(R.id.menu_pic1));
         exchangeMenuBTN = (findViewById(R.id.menu_pic2));
@@ -109,8 +105,8 @@ public class GeneratorRecordActicity extends AppCompatActivity {
                 arrayIndex.clear();
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                     String key = postSnapshot.getKey();
-                    ExchangeRecordDTO get = postSnapshot.getValue(ExchangeRecordDTO.class);
-                    String[] info = {get.sender,get.receiever,get.energy};
+                    GeneratorDTO get = postSnapshot.getValue(GeneratorDTO.class);
+                        String[] info = {get.id,get.energy,get.date};
                     arrayIndex.add(key);
                     Log.d("기록", "key: " + key);
                     Log.d("기록", "info: " + info[0] + info[1] + info[2]);
@@ -127,7 +123,7 @@ public class GeneratorRecordActicity extends AppCompatActivity {
                 // ...
             }
         };
-        Query sortbyAge = FirebaseDatabase.getInstance().getReference().child("generator_record").orderByChild("id").equalTo(id);
+        Query sortbyAge = FirebaseDatabase.getInstance().getReference().child("generator_record").orderByChild("id").equalTo(userId);
         sortbyAge.addListenerForSingleValueEvent(postListener);
     }
 }

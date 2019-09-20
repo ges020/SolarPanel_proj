@@ -40,12 +40,14 @@ public class GeneratorActivity extends AppCompatActivity {
     ImageView recordMenuBTN;
     ImageView setMenuBTN;
 
-    ListView listview;
+    ImageView detailBTN;
 
-    ArrayAdapter<String> arrayAdapter;
+//    ListView listview;
 
-    static ArrayList<String> arrayIndex =  new ArrayList<String>();
-    static ArrayList<String> arrayData = new ArrayList<String>();
+//    ArrayAdapter<String> arrayAdapter;
+//
+//    static ArrayList<String> arrayIndex =  new ArrayList<String>();
+    //    static ArrayList<String> arrayData = new ArrayList<String>();
 
 
     UserDTO userDTO;
@@ -57,15 +59,16 @@ public class GeneratorActivity extends AppCompatActivity {
 
         postGeneratorEnergy("id1","222");
 
-        arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1) ;
-        listview = (ListView) findViewById(R.id.listview) ;
-        listview.setAdapter(arrayAdapter) ;
+//        arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1) ;
+//        listview = (ListView) findViewById(R.id.listview) ;
+//        listview.setAdapter(arrayAdapter) ;
 
 
         generatorMenuBTN = (findViewById(R.id.menu_pic1));
         exchangeMenuBTN = (findViewById(R.id.menu_pic2));
         recordMenuBTN = (findViewById(R.id.menu_pic3));
         setMenuBTN = (findViewById(R.id.menu_pic4));
+        detailBTN = (findViewById(R.id.detailBTN));
 
         generatorMenuBTN.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,6 +95,13 @@ public class GeneratorActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), ExchangeRecordActivity.class);
+                startActivityForResult(intent, sub);//액티비티 띄우기
+            }
+        });
+        detailBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), GeneratorRecordActivity.class);
                 startActivityForResult(intent, sub);//액티비티 띄우기
             }
         });

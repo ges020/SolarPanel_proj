@@ -13,7 +13,7 @@ public class ExchangeRecordDTO {
 
 
     public String sender;
-    public String receiever;
+    public String receiver;
     public String energy;
     public String money;
 
@@ -23,9 +23,9 @@ public class ExchangeRecordDTO {
 
     }
 
-    public ExchangeRecordDTO(String sender, String receiever, String energy,String money) {
+    public ExchangeRecordDTO(String sender, String receiver, String energy,String money) {
         this.sender = sender;
-        this.receiever = receiever;
+        this.receiver = receiver;
         this.energy = energy;
         this.money = money;
     }
@@ -34,7 +34,7 @@ public class ExchangeRecordDTO {
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
         result.put("sender", sender);
-        result.put("receiever",receiever);
+        result.put("receiver",receiver);
         result.put("energy", energy);
         result.put("money",money);
         return result;

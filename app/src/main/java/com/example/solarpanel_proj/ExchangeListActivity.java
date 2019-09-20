@@ -2,6 +2,7 @@ package com.example.solarpanel_proj;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -70,6 +71,7 @@ public class ExchangeListActivity extends AppCompatActivity {
     ImageView exchangeMenuBTN;
     ImageView recordMenuBTN;
     ImageView setMenuBTN;
+    ImageView exchangeBTN;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +82,14 @@ public class ExchangeListActivity extends AppCompatActivity {
         exchangeMenuBTN = (findViewById(R.id.menu_pic2));
         recordMenuBTN = (findViewById(R.id.menu_pic3));
         setMenuBTN = (findViewById(R.id.menu_pic4));
+        exchangeBTN = (findViewById(R.id.exchangeBTN));
+        listview = (findViewById(R.id.listview));
+
+        arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1) ;
+        listview = (ListView) findViewById(R.id.listview) ;
+        listview.setAdapter(arrayAdapter) ;
+
+        getExchangeEnergyList();
 
         generatorMenuBTN.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,6 +116,13 @@ public class ExchangeListActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), ExchangeRecordActivity.class);
+                startActivityForResult(intent, sub);//액티비티 띄우기
+            }
+        });
+        exchangeBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivityForResult(intent, sub);//액티비티 띄우기
             }
         });

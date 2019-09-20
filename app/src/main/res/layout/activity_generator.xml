@@ -272,4 +272,14 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.972" />
 
+    <ImageView
+        android:id="@+id/detailBTN"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="104dp"
+        app:layout_constraintStart_toEndOf="@+id/long_frame5"
+        app:layout_constraintTop_toBottomOf="@+id/menu_background"
+        app:srcCompat="@drawable/common_google_signin_btn_icon_light_normal_background" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

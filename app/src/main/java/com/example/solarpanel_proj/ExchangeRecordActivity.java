@@ -143,11 +143,12 @@ public class ExchangeRecordActivity extends AppCompatActivity {
                 arrayIndex.clear();
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                     String key = postSnapshot.getKey();
-                    ExchangeRecordDTO get = postSnapshot.getValue(ExchangeRecordDTO.class);
-                    String[] info = {get.sender,get.receiever,get.energy};
-                    arrayIndex.add(key);
                     Log.d("기록", "key: " + key);
-                    Log.d("기록", "info: " + info[0] + info[1] + info[2]);
+                    ExchangeRecordDTO get = postSnapshot.getValue(ExchangeRecordDTO.class);
+
+                    String[] info = {get.sender,get.receiver,get.energy,get.money};
+                    arrayIndex.add(key);
+                    Log.d("기록", "info: " + info[0] + info[1] + info[2] + info[3]);
 
                 }
                 arrayAdapter.clear();
