@@ -79,7 +79,7 @@ public class GeneratorActivity extends AppCompatActivity {
 
 
 
-        getEnergyRecordMonth();
+        setUserGenerator();
 
         generatorMenuBTN = (findViewById(R.id.menu_pic1));
         exchangeMenuBTN = (findViewById(R.id.menu_pic2));
@@ -127,10 +127,10 @@ public class GeneratorActivity extends AppCompatActivity {
 
 
     public void setUserGenerator(){
-        totalEnergyText.setText("");
-        totalEnergyText.setText("");
-        monthEnergyText.setText("");
-        profitText.setText("");
+        getEnergyRecordMonth();
+        getTodayEnergy();
+        getTotalEnergy();
+        getProfitEnergy("id1");
     }
 
     //현재 누적 발전 에너지 변경, 저장
@@ -213,15 +213,18 @@ public class GeneratorActivity extends AppCompatActivity {
 
                 arrayData.clear();
                 arrayIndex.clear();
+                int sum = 0;
+
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                     String key = postSnapshot.getKey();
                     GeneratorDTO get = postSnapshot.getValue(GeneratorDTO.class);
                     String[] info = {get.id,get.energy,get.date};
+                    sum += Integer.parseInt(get.energy);
                     arrayIndex.add(key);
                     Log.d("기록", "key: " + key);
                     Log.d("기록", "info: " + info[0] + info[1]+info[2]);
-
                 }
+                monthEnergyText.setText(String.valueOf(sum));
 //                arrayAdapter.clear();
 //                arrayAdapter.addAll(arrayIndex);
 //                arrayAdapter.notifyDataSetChanged();
@@ -244,15 +247,119 @@ public class GeneratorActivity extends AppCompatActivity {
         sortbyAge.addListenerForSingleValueEvent(postListener);
     }
 
-    public void getTotalEnergy(){
-
-    }
-
     public void getTodayEnergy(){
+        ValueEventListener postListener = new ValueEventListener() {
 
+            //성공
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.d("today", "key: " + dataSnapshot.getChildrenCount());
+
+                arrayData.clear();
+                arrayIndex.clear();
+                int sum = 0;
+
+                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                    String key = postSnapshot.getKey();
+                    GeneratorDTO get = postSnapshot.getValue(GeneratorDTO.class);
+                    String[] info = {get.id,get.energy,get.date};
+                    sum += Integer.parseInt(get.energy);
+                    arrayIndex.add(key);
+                    Log.d("기록", "key: " + key);
+                    Log.d("기록", "info: " + info[0] + info[1]+info[2]);
+                }
+                todayEnergyText.setText(String.valueOf(sum));
+//                arrayAdapter.clear();
+//                arrayAdapter.addAll(arrayIndex);
+//                arrayAdapter.notifyDataSetChanged();
+            }
+
+            //실패
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d("fail","실패");
+                // ...
+            }
+        };
+
+        Date date = new Date();
+        Date newDate = new Date(date.getTime());
+        SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd");
+        String stringdate = dt.format(newDate);
+
+        Query sortbyAge = FirebaseDatabase.getInstance().getReference().child("generator_record").orderByChild("date").startAt(stringdate);
+        sortbyAge.addListenerForSingleValueEvent(postListener);
     }
 
-    public void getProfitEnergy(){
+    public void getTotalEnergy(){
+        ValueEventListener postListener = new ValueEventListener() {
 
+            //성공
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.d("today", "key: " + dataSnapshot.getChildrenCount());
+
+                arrayData.clear();
+                arrayIndex.clear();
+                int sum = 0;
+
+                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                    String key = postSnapshot.getKey();
+                    GeneratorDTO get = postSnapshot.getValue(GeneratorDTO.class);
+                    String[] info = {get.id,get.energy,get.date};
+                    sum += Integer.parseInt(get.energy);
+                    arrayIndex.add(key);
+                    Log.d("기록", "key: " + key);
+                    Log.d("기록", "info: " + info[0] + info[1]+info[2]);
+                }
+                totalEnergyText.setText(String.valueOf(sum));
+//                arrayAdapter.clear();
+//                arrayAdapter.addAll(arrayIndex);
+//                arrayAdapter.notifyDataSetChanged();
+            }
+
+            //실패
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d("fail","실패");
+                // ...
+            }
+        };
+
+
+        Query sortbyAge = FirebaseDatabase.getInstance().getReference().child("generator_record");
+        sortbyAge.addListenerForSingleValueEvent(postListener);
+    }
+
+    public void getProfitEnergy(String userId){
+        ValueEventListener postListener = new ValueEventListener() {
+
+            //성공
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.d("today", "key: " + dataSnapshot.getChildrenCount());
+
+                int sum = 0;
+
+                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                    String key = postSnapshot.getKey();
+                    ExchangeRecordDTO get = postSnapshot.getValue(ExchangeRecordDTO.class);
+                    String[] info = {get.money,get.energy,get.date};
+                    sum += Integer.parseInt(get.money);
+                    Log.d("머니", "sum: " + String.valueOf(sum));
+                    Log.d("money", "info: " + info[0] + info[1]+info[2]);
+                }
+                profitText.setText(String.valueOf(sum));
+            }
+
+            //실패
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d("fail","실패");
+                // ...
+            }
+        };
+        Query sortbyAge = FirebaseDatabase.getInstance().getReference().child("exchange_record").orderByChild("sender").equalTo(userId);
+        sortbyAge.addListenerForSingleValueEvent(postListener);
     }
 }

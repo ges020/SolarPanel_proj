@@ -58,6 +58,10 @@ public class LoginActivity extends AppCompatActivity {
     String sender="";
     String receiver="";
 
+    // 로그인 성공 시 sharedpreference에 값 저장해 자동 로그인이 가능하게 함.
+    // 로그아웃 구현하기
+    //
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

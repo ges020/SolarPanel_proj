@@ -195,7 +195,9 @@
         android:layout_marginStart="12dp"
         android:layout_marginTop="20dp"
         app:layout_constraintStart_toStartOf="@+id/list_background"
-        app:layout_constraintTop_toTopOf="@+id/list_background" />
+        app:layout_constraintTop_toTopOf="@+id/list_background" >
+
+    </ListView>
 
     <ImageView
         android:id="@+id/exchangeBTN"

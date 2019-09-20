@@ -3,11 +3,14 @@ package com.example.solarpanel_proj;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Contacts;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -79,8 +82,8 @@ public class ExchangeListActivity extends AppCompatActivity {
     ImageView exchangeBTN;
 
     ArrayList<ExchangeDTO> exchangeList = new ArrayList<ExchangeDTO>();
-
-    private ListView m_oListView = null;
+    ArrayList<String> exchangeListKey = new ArrayList<String>();
+    ListView m_oListView ;
 
 
     @Override
@@ -93,12 +96,12 @@ public class ExchangeListActivity extends AppCompatActivity {
         recordMenuBTN = (findViewById(R.id.menu_pic3));
         setMenuBTN = (findViewById(R.id.menu_pic4));
         exchangeBTN = (findViewById(R.id.exchangeBTN));
-        listview = (findViewById(R.id.listview));
+        //listview = (findViewById(R.id.listview));
 
         //postExchangeRecord("id2","id1","2223","223");
 
 
-        m_oListView = (ListView)findViewById(R.id.listview);
+        m_oListView = (findViewById(R.id.listview));
 
         //arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1) ;
         //listview = (ListView) findViewById(R.id.listview) ;
@@ -141,6 +144,43 @@ public class ExchangeListActivity extends AppCompatActivity {
                 startActivityForResult(intent, sub);//액티비티 띄우기
             }
         });
+        m_oListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d("Item Click", "리스트뷰"+position);
+
+                clickListViewDialog(position);
+
+            }
+        });
+    }
+
+    public void clickListViewDialog(final int position){
+        AlertDialog.Builder alt_bld = new AlertDialog.Builder(this);
+        alt_bld.setMessage(exchangeList.get(position).energy+"wh를 구매하시겠습니까?").setCancelable(
+                false).setPositiveButton("Yes",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        mDatabase = FirebaseDatabase.getInstance().getReference();
+                        String delkey = exchangeListKey.get(position);
+                        Log.d("지울 키 ","del : "+delkey);
+                        mDatabase.child("exchange_list/"+delkey).removeValue();
+
+                        getExchangeEnergyList();
+                        //전력값 변경;
+                        updateUserEnergy(exchangeList.get(position).energy,exchangeList.get(position).sender,"id1");
+                        postExchangeRecord(exchangeList.get(position).sender,"id1",exchangeList.get(position).energy,exchangeList.get(position).money);
+                    }
+                }).setNegativeButton("No",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert = alt_bld.create();
+        alert.setTitle("전력 거래");
+        alert.show();
     }
 
     //전력 거래 기록 저장
@@ -151,7 +191,7 @@ public class ExchangeListActivity extends AppCompatActivity {
 
         Date date = new Date();
         Date newDate = new Date(date.getTime());
-        SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM");
+        SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd");
         String stringdate = dt.format(newDate);
 
         ExchangeRecordDTO post = new ExchangeRecordDTO(sender,receiver,sendEnergy,money,stringdate);
@@ -234,10 +274,12 @@ public class ExchangeListActivity extends AppCompatActivity {
                 arrayIndex.clear();
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                     String key = postSnapshot.getKey();
+                    exchangeListKey.add(key);
                     ExchangeDTO get = postSnapshot.getValue(ExchangeDTO.class);
                     String[] info = {get.sender,get.energy};
-                    arrayIndex.add(get.energy);
-                    arrayData.add(get.money);
+                    exchangeList.add(get);
+                    arrayIndex.add("전력량 : "+get.energy);
+                    arrayData.add("판매자 : "+get.sender+"  가격 : "+get.money+"만원");
                     Log.d("기록", "key: " + key);
                     Log.d("기록", "info: " + info[0] + info[1]);
 
@@ -247,8 +289,8 @@ public class ExchangeListActivity extends AppCompatActivity {
                 for (int i=0; i<arrayIndex.size(); ++i)
                 {
                     ItemData oItem = new ItemData();
-                    oItem.strTitle = "전력량 : "+arrayIndex.get(i);
-                    oItem.strContent = "가격: "+arrayData.get(i)+"만원";
+                    oItem.strTitle = arrayIndex.get(i);
+                    oItem.strContent = arrayData.get(i);
                     Log.d("커스텀",oItem.strTitle+","+oItem.strContent);
                     oData.add(oItem);
                     if (nDatCnt >= arrayIndex.size()) nDatCnt = 0;
