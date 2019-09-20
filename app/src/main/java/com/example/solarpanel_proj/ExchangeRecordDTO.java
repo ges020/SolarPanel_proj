@@ -15,7 +15,7 @@ public class ExchangeRecordDTO {
     public String sender;
     public String receiever;
     public String energy;
-
+    public String money;
 
 
 
@@ -23,10 +23,11 @@ public class ExchangeRecordDTO {
 
     }
 
-    public ExchangeRecordDTO(String sender, String receiever, String energy) {
+    public ExchangeRecordDTO(String sender, String receiever, String energy,String money) {
         this.sender = sender;
         this.receiever = receiever;
         this.energy = energy;
+        this.money = money;
     }
 
     @Exclude
@@ -35,6 +36,7 @@ public class ExchangeRecordDTO {
         result.put("sender", sender);
         result.put("receiever",receiever);
         result.put("energy", energy);
+        result.put("money",money);
         return result;
     }
 

@@ -2,9 +2,13 @@ package com.example.solarpanel_proj;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -16,7 +20,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class recordActivity extends AppCompatActivity {
+public class RecordActivity extends AppCompatActivity {
 
     public static final int sub = 1001; /*다른 액티비티를 띄우기 위한 요청코드(상수)*/
 
@@ -59,10 +63,68 @@ public class recordActivity extends AppCompatActivity {
 //    String sendEnergy="";
 //    Date date;
 
+
+    ImageView generatorMenuBTN;
+    ImageView exchangeMenuBTN;
+    ImageView recordMenuBTN;
+    ImageView setMenuBTN;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_record);
+
+
+        arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1) ;
+        listview = (ListView) findViewById(R.id.listview) ;
+        listview.setAdapter(arrayAdapter) ;
+
+        generatorMenuBTN = (findViewById(R.id.menu_pic1));
+        exchangeMenuBTN = (findViewById(R.id.menu_pic2));
+        recordMenuBTN = (findViewById(R.id.menu_pic3));
+        setMenuBTN = (findViewById(R.id.menu_pic4));
+
+        getExchangeRecordList("id1");
+
+        generatorMenuBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), GeneratorActivity.class);
+                startActivityForResult(intent, sub);//액티비티 띄우기
+            }
+        });
+        exchangeMenuBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), ExchangeListActivity.class);
+                startActivityForResult(intent, sub);//액티비티 띄우기
+            }
+        });
+        recordMenuBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), RecordActivity.class);
+                startActivityForResult(intent, sub);//액티비티 띄우기
+            }
+        });
+        setMenuBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), RecordActivity.class);
+                startActivityForResult(intent, sub);//액티비티 띄우기
+            }
+        });
+
+        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView parent, View v, int position, long id) {
+
+                String strText = (String) parent.getItemAtPosition(position);
+                Log.d("click", "ID: "+strText);
+
+            }
+        });
     }
 
     //전력 거래 기록 가져오기

@@ -4,10 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -33,6 +33,10 @@ public class MainActivity extends AppCompatActivity {
 
     //test
     static final String[] LIST_MENU = {"LIST1", "LIST2", "LIST3"} ;
+
+    // 중복 클릭 방지 시간 설정
+    private long mLastClickTime = 500;
+
 
     //view
     String id="id3";
@@ -85,9 +89,16 @@ public class MainActivity extends AppCompatActivity {
     ImageView generatorMenuBTN;
     ImageView exchangeMenuBTN;
     ImageView recordMenuBTN;
+    ImageView setMenuBTN;
 
     String resultValueStr="";
+    TextView resultText;
+    String money = "";
+    TextView uniText;
 
+
+    //금액 입력 후 true
+    boolean isExchange = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,6 +120,13 @@ public class MainActivity extends AppCompatActivity {
         generatorMenuBTN = (findViewById(R.id.menu_pic1));
         exchangeMenuBTN = (findViewById(R.id.menu_pic2));
         recordMenuBTN = (findViewById(R.id.menu_pic3));
+        setMenuBTN = (findViewById(R.id.menu_pic4));
+
+        sendBTN = (findViewById(R.id.sendBTN));
+        delBTN = (findViewById(R.id.delBTN));
+
+        resultText = (findViewById(R.id.resultText));
+        uniText = (findViewById(R.id.uniText));
 
         //arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1) ;
        // listview = (ListView) findViewById(R.id.listview) ;
@@ -135,7 +153,7 @@ public class MainActivity extends AppCompatActivity {
         BTN_1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                resultValueStr+="1";
+                inputTextView("1");
                 Log.d("BTN_1 click", resultValueStr);
             }
         });
@@ -143,87 +161,127 @@ public class MainActivity extends AppCompatActivity {
         BTN_2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                resultValueStr+="2";
+                inputTextView("2");
                 Log.d("BTN_2 click", resultValueStr);
             }
         });
         BTN_3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                resultValueStr+="3";
+                inputTextView("3");
                 Log.d("BTN_3 click", resultValueStr);
             }
         });
         BTN_4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                resultValueStr+="4";
+                inputTextView("4");
                 Log.d("BTN_4 click", resultValueStr);
             }
         });
         BTN_5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                resultValueStr+="5";
+                inputTextView("5");
                 Log.d("BTN_5 click", resultValueStr);
             }
         });
         BTN_6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                resultValueStr+="6";
+                inputTextView("6");
                 Log.d("BTN_6 click", resultValueStr);
             }
         });
         BTN_7.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                resultValueStr+="7";
+                inputTextView("7");
                 Log.d("BTN_7 click", resultValueStr);
             }
         });
         BTN_8.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                resultValueStr+="8";
+                inputTextView("8");
                 Log.d("BTN_8 click", resultValueStr);
             }
         });
         BTN_9.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                resultValueStr+="9";
+                inputTextView("9");
                 Log.d("BTN_9 click", resultValueStr);
             }
         });
         BTN_0.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                resultValueStr+="0";
+                inputTextView("0");
                 Log.d("BTN_0 click", resultValueStr);
             }
         });
         generatorMenuBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), generatorActivity.class);
+                Intent intent = new Intent(getApplicationContext(), GeneratorActivity.class);
                 startActivityForResult(intent, sub);//액티비티 띄우기
             }
         });
         exchangeMenuBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), exchangeActivity.class);
+                Intent intent = new Intent(getApplicationContext(), ExchangeListActivity.class);
                 startActivityForResult(intent, sub);//액티비티 띄우기
             }
         });
         recordMenuBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), recordActivity.class);
+                Intent intent = new Intent(getApplicationContext(), RecordActivity.class);
                 startActivityForResult(intent, sub);//액티비티 띄우기
             }
         });
+        setMenuBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), RecordActivity.class);
+                startActivityForResult(intent, sub);//액티비티 띄우기
+            }
+        });
+        sendBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("sendBTN", "Click");
+
+                //true
+                if(isExchange) {
+                    money = resultValueStr;
+                    resultValueStr = "";
+                    resultText.setText("0");
+                    Log.d("상태",energy+","+money);
+                    postExchangeEnergy("id1");
+                    //false
+                    isExchange=false;
+                    Intent intent = new Intent(getApplicationContext(), ExchangeListActivity.class);
+                    startActivityForResult(intent, sub);//액티비티 띄우기
+                }else {
+                    energy = resultValueStr;
+                    uniText.setText("만");
+                    resultValueStr = "";
+                    resultText.setText("0");
+                    isExchange = true;
+                }
+            }
+        });
+        delBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resultValueStr = delReultValue(resultValueStr);
+
+            }
+        });
+
 
 //        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 //            @Override
@@ -237,12 +295,42 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+    public void inputTextView(String str){
+        resultValueStr+=str;
+        resultText.setText(resultValueStr);
+    }
+
     public String delReultValue(String str) {
-        if (str != null && str.length() > 0 && str.charAt(str.length()-1)=='x') {
+        if (str != null && str.length() > 0) {
             str = str.substring(0, str.length()-1);
+            resultText.setText(str);
+            resultValueStr = str;
+            Log.d("delText",resultValueStr);
+        }else{
+            resultText.setText("0");
         }
         return str;
     }
+
+
+    //거래 입력
+    public void postExchangeEnergy(String eid){
+            mDatabase = FirebaseDatabase.getInstance().getReference();
+            Map<String, Object> childUpdates = new HashMap<>();
+            Map<String, Object> postValues = null;
+
+            id = eid;
+
+            ExchangeDTO post = new ExchangeDTO(id, energy,money);
+            postValues = post.toMap();
+
+            mDatabase.child("exchange_list").push().setValue(postValues);
+            Toast toast = Toast.makeText(getApplicationContext(), "거래가 등록되었습니다", Toast.LENGTH_SHORT);
+            toast.show();
+
+    }
+
 
     //회원 목록 조회
     public void getUserList(){
@@ -304,7 +392,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //전력 거래 기록 저장
-    public void postExchangeRecord(String sender, String receiver, String sendEnergy){
+    public void postExchangeRecord(String sender, String receiver, String sendEnergy, String money){
         mDatabase = FirebaseDatabase.getInstance().getReference();
         Map<String, Object> childUpdates = new HashMap<>();
         Map<String, Object> postValues = null;
@@ -315,7 +403,7 @@ public class MainActivity extends AppCompatActivity {
 //        Log.d("시간", date.toString());
 
 
-        ExchangeRecordDTO post = new ExchangeRecordDTO(sender,receiver,sendEnergy);
+        ExchangeRecordDTO post = new ExchangeRecordDTO(sender,receiver,sendEnergy,money);
         postValues = post.toMap();
 
         childUpdates.put("/exchange_record/" + sender, postValues);

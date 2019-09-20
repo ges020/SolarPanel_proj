@@ -2,9 +2,12 @@ package com.example.solarpanel_proj;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -19,7 +22,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class exchangeActivity extends AppCompatActivity {
+public class ExchangeListActivity extends AppCompatActivity {
 
     public static final int sub = 1001; /*다른 액티비티를 띄우기 위한 요청코드(상수)*/
 
@@ -60,10 +63,52 @@ public class exchangeActivity extends AppCompatActivity {
     String sender="";
     String receiver="";
 
+    String money = "";
+
+
+    ImageView generatorMenuBTN;
+    ImageView exchangeMenuBTN;
+    ImageView recordMenuBTN;
+    ImageView setMenuBTN;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_exchange);
+        setContentView(R.layout.activity_exchange_list);
+
+        generatorMenuBTN = (findViewById(R.id.menu_pic1));
+        exchangeMenuBTN = (findViewById(R.id.menu_pic2));
+        recordMenuBTN = (findViewById(R.id.menu_pic3));
+        setMenuBTN = (findViewById(R.id.menu_pic4));
+
+        generatorMenuBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), GeneratorActivity.class);
+                startActivityForResult(intent, sub);//액티비티 띄우기
+            }
+        });
+        exchangeMenuBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), ExchangeListActivity.class);
+                startActivityForResult(intent, sub);//액티비티 띄우기
+            }
+        });
+        recordMenuBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), RecordActivity.class);
+                startActivityForResult(intent, sub);//액티비티 띄우기
+            }
+        });
+        setMenuBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), RecordActivity.class);
+                startActivityForResult(intent, sub);//액티비티 띄우기
+            }
+        });
     }
 
     //회원 간 전력량 변경
@@ -122,25 +167,6 @@ public class exchangeActivity extends AppCompatActivity {
         });
     }
 
-
-    //거래 입력
-    public void postExchangeEnergy(String eid, String eenergy){
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        Map<String, Object> childUpdates = new HashMap<>();
-        Map<String, Object> postValues = null;
-
-        id = eid;
-        energy = eenergy;
-
-        ExchangeDTO post = new ExchangeDTO(id,energy);
-        postValues = post.toMap();
-
-        childUpdates.put("/exchange_list/" + id, postValues);
-        mDatabase.updateChildren(childUpdates);
-
-        Toast toast = Toast.makeText(getApplicationContext(), "거래가 등록되었습니다", Toast.LENGTH_SHORT);
-        toast.show();
-    }
 
     //거래 목록 조회
     public void getExchangeEnergyList(){

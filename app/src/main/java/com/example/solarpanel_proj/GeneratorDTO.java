@@ -5,32 +5,30 @@ import com.google.firebase.database.Exclude;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ExchangeDTO {
+public class GeneratorDTO {
 
-
-    public String sender;
+    public String id;
     public String energy;
-    public String money;
+    public String date;
 
 
-    public ExchangeDTO(){
+    public GeneratorDTO(){
 
     }
 
-    public ExchangeDTO(String sender, String energy, String money) {
-        this.sender = sender;
+    public GeneratorDTO(String id, String energy, String date) {
+        this.id = id;
         this.energy = energy;
-        this.money = money;
+        this.date = date;
     }
 
     @Exclude
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
-        result.put("sender", sender);
+        result.put("id", id);
         result.put("energy", energy);
-        result.put("money",money);
+        result.put("date",date);
 
         return result;
     }
-
 }

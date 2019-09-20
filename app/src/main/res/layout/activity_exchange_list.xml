@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -40,8 +39,8 @@
         android:id="@+id/ground"
         android:layout_width="600dp"
         android:layout_height="56.25dp"
-        android:contentDescription="@string/app_name"
         android:src="@drawable/ground"
+        android:contentDescription="@string/app_name"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -54,7 +53,7 @@
         android:contentDescription="@string/app_name"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0"
@@ -65,8 +64,8 @@
         android:layout_width="200dp"
         android:layout_height="400dp"
         android:layout_marginStart="476dp"
-        android:contentDescription="@string/app_name"
         android:src="@drawable/menu_background"
+        android:contentDescription="@string/app_name"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -177,99 +176,15 @@
         app:srcCompat="@drawable/setting" />
 
     <ImageView
-        android:id="@+id/connection"
-        android:layout_width="10dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="188dp"
-        android:contentDescription="@string/app_name"
-        android:src="@drawable/connection"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.049"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.33" />
-
-    <ImageView
-        android:id="@+id/long_frame1"
+        android:id="@+id/long_frame"
         android:layout_width="420dp"
         android:layout_height="100dp"
         android:layout_marginEnd="152dp"
-        android:contentDescription="@string/app_name"
         android:src="@drawable/long_frame"
+        android:contentDescription="@string/app_name"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.391" />
-
-    <ImageView
-        android:id="@+id/long_frame2"
-        android:layout_width="294dp"
-        android:layout_height="70dp"
-        android:layout_marginEnd="276dp"
-        android:contentDescription="@string/app_name"
-        android:src="@drawable/long_frame"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.933"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.507" />
-
-    <ImageView
-        android:id="@+id/long_frame3"
-        android:layout_width="75dp"
-        android:layout_height="50dp"
-        android:contentDescription="@string/app_name"
-        android:src="@drawable/short_frame"
-        app:layout_constraintBottom_toBottomOf="@+id/underground"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.053"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.632" />
-
-    <ImageView
-        android:id="@+id/long_frame4"
-        android:layout_width="357dp"
-        android:layout_height="85dp"
-        android:layout_marginEnd="204dp"
-        android:contentDescription="@string/app_name"
-        android:src="@drawable/long_frame"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.717"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.731" />
-
-    <ImageView
-        android:id="@+id/long_frame5"
-        android:layout_width="357dp"
-        android:layout_height="85dp"
-        android:layout_marginEnd="204dp"
-        android:contentDescription="@string/app_name"
-        android:src="@drawable/long_frame"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.717"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.844" />
-
-    <ImageView
-        android:id="@+id/long_frame6"
-        android:layout_width="180dp"
-        android:layout_height="60dp"
-        android:contentDescription="@string/app_name"
-        android:src="@drawable/middle_frame"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.066"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.972" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
