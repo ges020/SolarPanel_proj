@@ -6,15 +6,19 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,12 +35,18 @@ public class GeneratorActivity extends AppCompatActivity {
 
     String changeEnergy="";
 
-    String receiver="";
-
     ImageView generatorMenuBTN;
     ImageView exchangeMenuBTN;
     ImageView recordMenuBTN;
     ImageView setMenuBTN;
+
+    ListView listview;
+
+    ArrayAdapter<String> arrayAdapter;
+
+    static ArrayList<String> arrayIndex =  new ArrayList<String>();
+    static ArrayList<String> arrayData = new ArrayList<String>();
+
 
     UserDTO userDTO;
 
@@ -47,6 +57,9 @@ public class GeneratorActivity extends AppCompatActivity {
 
         postGeneratorEnergy("id1","222");
 
+        arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1) ;
+        listview = (ListView) findViewById(R.id.listview) ;
+        listview.setAdapter(arrayAdapter) ;
 
 
         generatorMenuBTN = (findViewById(R.id.menu_pic1));
@@ -71,36 +84,20 @@ public class GeneratorActivity extends AppCompatActivity {
         recordMenuBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), RecordActivity.class);
+                Intent intent = new Intent(getApplicationContext(), ExchangeRecordActivity.class);
                 startActivityForResult(intent, sub);//액티비티 띄우기
             }
         });
         setMenuBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), RecordActivity.class);
+                Intent intent = new Intent(getApplicationContext(), ExchangeRecordActivity.class);
                 startActivityForResult(intent, sub);//액티비티 띄우기
             }
         });
     }
 
-    //발전 에너지 조회
-    public void getGeneratorEnergy(String gid){
-        id = gid;
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        mDatabase.child("/id_list/"+id+"/energy").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                userEnergy = snapshot.getValue().toString();
-                Log.d("userEnergy",  userEnergy );
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.d("getUsers", databaseError.toException().toString());
-                // ...
-            }
-        });
-    }
+
 
     //현재 누적 발전 에너지 변경, 저장
     public void postGeneratorEnergy(String gid, String gchangeEnergy){
@@ -113,7 +110,7 @@ public class GeneratorActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 Date date = new Date();
-                Date newDate = new Date(date.getTime() + (604800000L * 2) + (24 * 60 * 60));
+                Date newDate = new Date(date.getTime());
                 SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd");
                 String stringdate = dt.format(newDate);
 
@@ -128,7 +125,7 @@ public class GeneratorActivity extends AppCompatActivity {
                 String tmpEnergy="";
 
                 tmpEnergy = String.valueOf(Integer.parseInt(userEnergy) + Integer.parseInt(changeEnergy));
-                childUpdates.put("/id_list/" + receiver+"/energy", tmpEnergy );
+                childUpdates.put("/id_list/" + id+"/energy", tmpEnergy );
 
                 mDatabase.updateChildren(childUpdates);
 
@@ -154,7 +151,7 @@ public class GeneratorActivity extends AppCompatActivity {
 
         mDatabase.child("generator_record").push().setValue(postValues);
     }
-    
+
     //회원 정보
     public void getUserInfo(String id){
         mDatabase = FirebaseDatabase.getInstance().getReference();

@@ -238,14 +238,14 @@ public class MainActivity extends AppCompatActivity {
         recordMenuBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), RecordActivity.class);
+                Intent intent = new Intent(getApplicationContext(), ExchangeRecordActivity.class);
                 startActivityForResult(intent, sub);//액티비티 띄우기
             }
         });
         setMenuBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), RecordActivity.class);
+                Intent intent = new Intent(getApplicationContext(), ExchangeRecordActivity.class);
                 startActivityForResult(intent, sub);//액티비티 띄우기
             }
         });
