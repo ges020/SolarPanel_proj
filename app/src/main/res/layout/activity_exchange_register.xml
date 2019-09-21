@@ -109,7 +109,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.51"
-        app:srcCompat="@drawable/menu_frame" />
+        app:srcCompat="@drawable/yellow" />
 
     <ImageView
         android:id="@+id/menu_pic2"
