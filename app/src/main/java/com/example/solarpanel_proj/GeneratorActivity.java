@@ -70,7 +70,6 @@ public class GeneratorActivity extends AppCompatActivity {
 
         //postGeneratorEnergy("id1","222");
 
-
 //        arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1) ;
 //        listview = (ListView) findViewById(R.id.listview) ;
 //        listview.setAdapter(arrayAdapter) ;

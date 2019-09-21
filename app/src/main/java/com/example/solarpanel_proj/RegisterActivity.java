@@ -21,7 +21,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     public static final int sub = 1001; /*다른 액티비티를 띄우기 위한 요청코드(상수)*/
 
-    private static final String TAG = "MainActivity";
+    private static final String TAG = "SendActivity";
 
     private DatabaseReference mDatabase;
 
@@ -69,6 +69,7 @@ public class RegisterActivity extends AppCompatActivity {
                 boolean isOk = emptyCheck();
                 if(isOk) {
                     postUserSignUp(isOk);
+                    Toast.makeText(RegisterActivity.this, "회원가입에 성공했습니다.", Toast.LENGTH_SHORT).show();
                     Intent loginIntent = new Intent(RegisterActivity.this, LoginActivity.class);
                     RegisterActivity.this.startActivity(loginIntent);
                 }

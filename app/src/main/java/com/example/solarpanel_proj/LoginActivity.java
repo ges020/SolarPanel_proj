@@ -27,7 +27,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public static final int sub = 1001; /*다른 액티비티를 띄우기 위한 요청코드(상수)*/
 
-    private static final String TAG = "MainActivity";
+    private static final String TAG = "SendActivity";
 
     private DatabaseReference mDatabase;
 

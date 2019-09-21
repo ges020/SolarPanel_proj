@@ -18,19 +18,17 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class MainActivity extends AppCompatActivity {
+public class ExchangeRegisterActivity extends AppCompatActivity {
 
     public static final int sub = 1001; /*다른 액티비티를 띄우기 위한 요청코드(상수)*/
 
-    private static final String TAG = "MainActivity";
+    private static final String TAG = "SendActivity";
 
     private DatabaseReference mDatabase;
 
@@ -106,10 +104,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-        startActivityForResult(intent, sub);//액티비티 띄우기
+        setContentView(R.layout.activity_exchange_register);
 
         BTN_1 = (findViewById(R.id.normal_frame7));
         BTN_2 = (findViewById(R.id.normal_frame8));
@@ -134,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
         uniText = (findViewById(R.id.uniText));
 
         //arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1) ;
-       // listview = (ListView) findViewById(R.id.listview) ;
+        // listview = (ListView) findViewById(R.id.listview) ;
         //listview.setAdapter(arrayAdapter) ;
 
         //getUserList();
@@ -153,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
 //        Calendar time = Calendar.getInstance();
 //        ,time.getTime()
         //postExchangeRecord("id2","id1","2223");
-       // getExchangeRecordList("id1");
+        // getExchangeRecordList("id1");
 
         BTN_1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -331,18 +326,18 @@ public class MainActivity extends AppCompatActivity {
 
     //거래 입력
     public void postExchangeEnergy(String eid){
-            mDatabase = FirebaseDatabase.getInstance().getReference();
-            Map<String, Object> childUpdates = new HashMap<>();
-            Map<String, Object> postValues = null;
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        Map<String, Object> childUpdates = new HashMap<>();
+        Map<String, Object> postValues = null;
 
-            id = eid;
+        id = eid;
 
-            ExchangeDTO post = new ExchangeDTO(id, energy,money);
-            postValues = post.toMap();
+        ExchangeDTO post = new ExchangeDTO(id, energy,money);
+        postValues = post.toMap();
 
-            mDatabase.child("exchange_list").push().setValue(postValues);
-            Toast toast = Toast.makeText(getApplicationContext(), "거래가 등록되었습니다", Toast.LENGTH_SHORT);
-            toast.show();
+        mDatabase.child("exchange_list").push().setValue(postValues);
+        Toast toast = Toast.makeText(getApplicationContext(), "거래가 등록되었습니다", Toast.LENGTH_SHORT);
+        toast.show();
 
     }
 
