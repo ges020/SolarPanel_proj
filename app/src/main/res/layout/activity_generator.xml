@@ -209,12 +209,13 @@
         android:id="@+id/long_frame2"
         android:layout_width="399dp"
         android:layout_height="83dp"
+        android:layout_marginStart="4dp"
         android:contentDescription="@string/app_name"
         android:src="@drawable/long_frame"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.635" />
+        app:layout_constraintVertical_bias="0.582" />
 
     <ImageView
         android:id="@+id/long_frame3"
