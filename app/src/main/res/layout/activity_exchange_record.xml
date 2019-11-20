@@ -30,41 +30,40 @@
         android:contentDescription="@string/app_name"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.937"
+        app:layout_constraintHorizontal_bias="1.237"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.023"
+        app:layout_constraintVertical_bias="0.080"
         app:srcCompat="@drawable/collector" />
 
-    <ImageView
-        android:id="@+id/ground"
-        android:layout_width="600dp"
-        android:layout_height="56.25dp"
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
         android:contentDescription="@string/app_name"
-        android:src="@drawable/ground"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.28" />
+        app:layout_constraintVertical_bias="0.27"
+        android:background="#08bd19"/>
 
     <ImageView
-        android:id="@+id/underground"
-        android:layout_width="600dp"
-        android:layout_height="650dp"
-        android:contentDescription="@string/app_name"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@drawable/underground" />
+    android:id="@+id/underground"
+    android:layout_width="match_parent"
+    android:layout_height="750dp"
+    android:contentDescription="@string/app_name"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="1.0"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintVertical_bias="1.02"
+    app:srcCompat="@drawable/underground" />
 
     <ImageView
         android:id="@+id/menu_background"
         android:layout_width="200dp"
         android:layout_height="400dp"
-        android:layout_marginStart="476dp"
+        android:layout_marginStart="500dp"
         android:contentDescription="@string/app_name"
         android:src="@drawable/menu_background"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -164,19 +163,7 @@
         app:layout_constraintVertical_bias="0.719"
         app:srcCompat="@drawable/menu_frame" />
 
-    <ImageView
-        android:id="@+id/list_background"
-        android:layout_width="420dp"
-        android:layout_height="588dp"
-        android:layout_marginEnd="152dp"
-        android:contentDescription="@string/app_name"
-        android:src="@drawable/list_background"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.905" />
+
 
     <ImageView
         android:id="@+id/menu_pic4"
@@ -190,6 +177,19 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.714"
         app:srcCompat="@drawable/logout" />
+    <ImageView
+        android:id="@+id/list_background"
+        android:layout_width="420dp"
+        android:layout_height="588dp"
+        android:layout_marginEnd="152dp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/list_background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.4"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.825" />
 
     <ListView
         android:id="@+id/listview"
@@ -197,6 +197,7 @@
         android:layout_height="539dp"
         android:layout_marginStart="12dp"
         android:layout_marginTop="20dp"
+        app:layout_constraintVertical_bias="0.88"
         app:layout_constraintStart_toStartOf="@+id/list_background"
         app:layout_constraintTop_toTopOf="@+id/list_background" />
 
