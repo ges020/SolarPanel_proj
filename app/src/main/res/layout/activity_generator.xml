@@ -30,34 +30,33 @@
         android:contentDescription="@string/app_name"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.937"
+        app:layout_constraintHorizontal_bias="1.237"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.023"
+        app:layout_constraintVertical_bias="0.080"
         app:srcCompat="@drawable/collector" />
 
-    <ImageView
-        android:id="@+id/ground"
-        android:layout_width="600dp"
-        android:layout_height="56.25dp"
-        android:contentDescription="@string/app_name"
-        android:src="@drawable/ground"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.28" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:contentDescription="@string/app_name"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.27"
+            android:background="#08bd19"/>
 
     <ImageView
         android:id="@+id/underground"
-        android:layout_width="600dp"
-        android:layout_height="650dp"
+        android:layout_width="match_parent"
+        android:layout_height="750dp"
         android:contentDescription="@string/app_name"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
+        app:layout_constraintVertical_bias="1.02"
         app:srcCompat="@drawable/underground" />
 
     <ImageView
@@ -200,22 +199,25 @@
         android:src="@drawable/long_frame"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.423" />
+        app:layout_constraintVertical_bias="0.4" />
 
     <ImageView
         android:id="@+id/long_frame2"
-        android:layout_width="399dp"
-        android:layout_height="83dp"
-        android:layout_marginStart="4dp"
+        android:layout_width="443dp"
+        android:layout_height="94dp"
+        android:layout_marginEnd="152dp"
         android:contentDescription="@string/app_name"
         android:src="@drawable/long_frame"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.582" />
+        app:layout_constraintVertical_bias="0.55" />
+
 
     <ImageView
         android:id="@+id/long_frame3"
