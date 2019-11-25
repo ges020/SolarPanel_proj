@@ -83,7 +83,21 @@ public class ExchangeRecordActivity extends AppCompatActivity {
 //        listview = (ListView) findViewById(R.id.listview) ;
 //        listview.setAdapter(arrayAdapter) ;
 
+        ArrayList<String> arraylist = new ArrayList<String>();
+        arraylist.add("판매자: aaa 전기량: 9876wh 판매금액: 10000원 " +
+                "2019년 11월 22일 금 ");
+        arraylist.add("판매자: bbb 전기량: 5432wh 판매금액: 50000원  " +
+                "2019년 11월 25일 월");
+        arraylist.add("판매자: ccc 전기량: 1234wh 판매금액: 10000원  " +
+                "2019년 11월 25일 월");
+        arraylist.add("판매자: ddd 전기량: 5678wh 판매금액: 60000원  " +
+                "2019년 11월 25일 월");
 
+        ArrayAdapter<String> Adapter;
+        Adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, arraylist);
+
+        ListView list = (ListView)findViewById(R.id.listview);
+        list.setAdapter(Adapter);
 
         generatorMenuBTN = (findViewById(R.id.menu_pic1));
         exchangeMenuBTN = (findViewById(R.id.menu_pic2));
@@ -101,13 +115,6 @@ public class ExchangeRecordActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), GeneratorActivity.class);
-                startActivityForResult(intent, sub);//액티비티 띄우기
-            }
-        });
-        exchangeMenuBTN.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ExchangeListActivity.class);
                 startActivityForResult(intent, sub);//액티비티 띄우기
             }
         });
@@ -142,6 +149,8 @@ public class ExchangeRecordActivity extends AppCompatActivity {
             }
         });
     }
+
+
 
     //전력 거래 기록 가져오기
     public void getExchangeRecordList(String userId){

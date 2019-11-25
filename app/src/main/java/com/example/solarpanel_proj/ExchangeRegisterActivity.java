@@ -228,13 +228,6 @@ public class ExchangeRegisterActivity extends AppCompatActivity {
                 startActivityForResult(intent, sub);//액티비티 띄우기
             }
         });
-        exchangeMenuBTN.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ExchangeListActivity.class);
-                startActivityForResult(intent, sub);//액티비티 띄우기
-            }
-        });
         recordMenuBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -273,7 +266,7 @@ public class ExchangeRegisterActivity extends AppCompatActivity {
                     postExchangeEnergy(loginId);
                     //false
                     isExchange=false;
-                    Intent intent = new Intent(getApplicationContext(), ExchangeListActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), ExchangeRecordActivity.class);
                     startActivityForResult(intent, sub);//액티비티 띄우기
                 }else {
                     energy = resultValueStr;

@@ -97,13 +97,6 @@ public class GeneratorActivity extends AppCompatActivity {
                 startActivityForResult(intent, sub);//액티비티 띄우기
             }
         });
-        exchangeMenuBTN.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ExchangeListActivity.class);
-                startActivityForResult(intent, sub);//액티비티 띄우기
-            }
-        });
         recordMenuBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

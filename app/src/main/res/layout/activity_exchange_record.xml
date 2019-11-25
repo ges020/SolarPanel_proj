@@ -98,32 +98,6 @@
         app:srcCompat="@drawable/inquiry" />
 
     <ImageView
-        android:id="@+id/menu_frame2"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
-        android:layout_marginStart="600dp"
-        android:contentDescription="@string/app_name"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.52"
-        app:srcCompat="@drawable/menu_frame" />
-
-    <ImageView
-        android:id="@+id/menu_pic2"
-        android:layout_width="60dp"
-        android:layout_height="75dp"
-        android:layout_marginStart="605dp"
-        android:contentDescription="@string/app_name"
-        app:layout_constraintBottom_toBottomOf="@+id/underground"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.52"
-        app:srcCompat="@drawable/transmission" />
-
-    <ImageView
         android:id="@+id/menu_pic4"
         android:layout_width="48dp"
         android:layout_height="66dp"
@@ -159,7 +133,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/underground"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.611"
+        app:layout_constraintVertical_bias="0.55"
         app:srcCompat="@drawable/price" />
 
     <ImageView
