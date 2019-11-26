@@ -55,8 +55,6 @@ public class MainActivity extends AppCompatActivity {
 
         mTextViewResult.setMovementMethod(new ScrollingMovementMethod());
 
-
-
         mArrayList = new ArrayList<>();
 
         mAdapter = new UsersAdapter(this, mArrayList);

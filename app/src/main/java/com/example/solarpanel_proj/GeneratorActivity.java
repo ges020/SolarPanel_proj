@@ -1,13 +1,16 @@
 package com.example.solarpanel_proj;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -43,7 +46,6 @@ public class GeneratorActivity extends AppCompatActivity {
     TextView profitText;
 
     ImageView generatorMenuBTN;
-    ImageView exchangeMenuBTN;
     ImageView recordMenuBTN;
     ImageView setMenuBTN;
 
@@ -80,12 +82,9 @@ public class GeneratorActivity extends AppCompatActivity {
         monthEnergyText = (findViewById(R.id.monthEnergyText));
         profitText = (findViewById(R.id.profitText));
 
-
-
         setUserGenerator();
 
         generatorMenuBTN = (findViewById(R.id.menu_pic1));
-        exchangeMenuBTN = (findViewById(R.id.menu_pic2));
         recordMenuBTN = (findViewById(R.id.menu_pic3));
         setMenuBTN = (findViewById(R.id.menu_pic4));
         detailBTN = (findViewById(R.id.detailBTN));

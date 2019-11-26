@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#C4F5F6"
+    android:orientation="vertical"
     tools:context=".ExchangeRecordActivity">
 
     <ImageView
@@ -62,7 +63,7 @@
     <ImageView
         android:id="@+id/menu_background"
         android:layout_width="200dp"
-        android:layout_height="400dp"
+        android:layout_height="360dp"
         android:layout_marginStart="570dp"
         android:src="@drawable/menu_background"
         android:contentDescription="@string/app_name"
@@ -82,7 +83,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.42"
+        app:layout_constraintVertical_bias="0.45"
         app:srcCompat="@drawable/menu_frame" />
 
     <ImageView
@@ -94,21 +95,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/underground"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.42"
+        app:layout_constraintVertical_bias="0.45"
         app:srcCompat="@drawable/inquiry" />
-
-    <ImageView
-        android:id="@+id/menu_pic4"
-        android:layout_width="48dp"
-        android:layout_height="66dp"
-        android:layout_marginStart="620dp"
-        android:layout_marginTop="8dp"
-        android:contentDescription="@string/app_name"
-        app:layout_constraintBottom_toBottomOf="@+id/underground"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.71"
-        app:srcCompat="@drawable/logout" />
 
     <ImageView
         android:id="@+id/menu_frame3"
@@ -121,7 +109,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.614"
+        app:layout_constraintVertical_bias="0.56"
         app:srcCompat="@drawable/yellow" />
 
     <ImageView
@@ -133,7 +121,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/underground"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.55"
+        app:layout_constraintVertical_bias="0.56"
         app:srcCompat="@drawable/price" />
 
     <ImageView
@@ -147,8 +135,21 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.719"
+        app:layout_constraintVertical_bias="0.67"
         app:srcCompat="@drawable/menu_frame" />
+
+    <ImageView
+        android:id="@+id/menu_pic4"
+        android:layout_width="48dp"
+        android:layout_height="66dp"
+        android:layout_marginStart="620dp"
+        android:layout_marginTop="8dp"
+        android:contentDescription="@string/app_name"
+        app:layout_constraintBottom_toBottomOf="@+id/underground"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.66"
+        app:srcCompat="@drawable/logout" />
 
     <ImageView
         android:id="@+id/list_background"

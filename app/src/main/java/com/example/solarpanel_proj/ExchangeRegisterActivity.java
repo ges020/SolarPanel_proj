@@ -88,7 +88,6 @@ public class ExchangeRegisterActivity extends AppCompatActivity {
     ImageView delBTN;
 
     ImageView generatorMenuBTN;
-    ImageView exchangeMenuBTN;
     ImageView recordMenuBTN;
     ImageView setMenuBTN;
 
@@ -118,7 +117,6 @@ public class ExchangeRegisterActivity extends AppCompatActivity {
         BTN_0 = (findViewById(R.id.normal_frame0));
 
         generatorMenuBTN = (findViewById(R.id.menu_pic1));
-        exchangeMenuBTN = (findViewById(R.id.menu_pic2));
         recordMenuBTN = (findViewById(R.id.menu_pic3));
         setMenuBTN = (findViewById(R.id.menu_pic4));
 

@@ -34,7 +34,6 @@ public class GeneratorRecordActivity extends AppCompatActivity {
     String changeEnergy="";
 
     ImageView generatorMenuBTN;
-    ImageView exchangeMenuBTN;
     ImageView recordMenuBTN;
     ImageView setMenuBTN;
 
@@ -64,7 +63,6 @@ public class GeneratorRecordActivity extends AppCompatActivity {
         m_oListView = (ListView)findViewById(R.id.listview);
 
         generatorMenuBTN = (findViewById(R.id.menu_pic1));
-        exchangeMenuBTN = (findViewById(R.id.menu_pic2));
         recordMenuBTN = (findViewById(R.id.menu_pic3));
         setMenuBTN = (findViewById(R.id.menu_pic4));
 
